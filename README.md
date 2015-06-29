@@ -243,6 +243,28 @@ you can reference them in your code. This is config.json:
 }
 ~~~
 
+## Screenshots
+
+Public Home:
+
+![Image of Public Home](http://josephspurrier.com/images/gowebapp-home.JPG)
+
+About:
+
+![Image of About](http://josephspurrier.com/images/gowebapp-about.JPG)
+
+Register:
+
+![Image of Register](http://josephspurrier.com/images/gowebapp-register.JPG)
+
+Login:
+
+![Image of Login](http://josephspurrier.com/images/gowebapp-login.JPG)
+
+Authenticated Home:
+
+![Image of Auth Home](http://josephspurrier.com/images/gowebapp-loggedin.JPG)
+
 ## Feedback
 
 All feedback is welcome. Let me know if you have any suggestions, questions, or criticisms. 
