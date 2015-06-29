@@ -1,0 +1,10 @@
+{{define "title"}}Go Web App{{end}}
+{{define "content"}}
+<div class="row">
+	<div class="large-12 columns">
+		<h1>Hello, {{.first_name}}</h1>
+		<p>You have arrived.</p>
+		{{template "footer" .}}
+	</div>
+</div>
+{{end}}

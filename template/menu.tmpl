@@ -1,0 +1,14 @@
+{{if eq .AuthLevel "auth"}}
+
+<ul class="right">
+  <li><a href="{{.BaseURI}}about">About</a></li>
+  <li><a href="{{.BaseURI}}logout">Logout</a></li>
+</ul>
+
+{{else}}
+
+<ul class="right">
+  <li><a href="{{.BaseURI}}about">About</a></li>
+</ul>
+
+{{end}}

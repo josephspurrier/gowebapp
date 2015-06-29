@@ -1,0 +1,10 @@
+{{define "title"}}Go Web App{{end}}
+{{define "content"}}
+<div class="row">
+	<div class="large-12 columns">
+		<h1>{{template "title" .}}</h1>
+		<p>Click <a href="{{.BaseURI}}login">here</a> to login.</p>
+		{{template "footer" .}}
+	</div>
+</div>
+{{end}}

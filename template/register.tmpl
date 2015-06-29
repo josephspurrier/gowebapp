@@ -1,0 +1,45 @@
+{{define "title"}}Create an Account{{end}}
+{{define "content"}}
+
+<div class="row">
+	<div class="small-12 column">
+		<h1>{{template "title" .}}</h1>
+
+<form method="post">
+	<div>
+		<label for="first_name"></label>
+		<div><input type="text" id="first_name" name="first_name" maxlength="48" placeholder="First Name" value="{{.first_name}}" /></div>
+	</div>
+	
+	<div>
+		<label for="last_name"></label>
+		<div><input type="text" id="last_name" name="last_name" maxlength="48" placeholder="Last Name" value="{{.last_name}}" /></div>
+	</div>
+	
+	<div>
+		<label for="email"></label>
+		<div><input type="email" id="email" name="email" maxlength="48" placeholder="Email" value="{{.email}}" /></div>
+	</div>
+	<div>
+		<label for="password"></label><div>
+		<input type="password" id="password" name="password" maxlength="48" placeholder="Password" value="{{.password}}" />	</div>
+	</div>
+	<div>
+		<label for="password_verify"></label>
+		<div><input type="password" id="password_verify" name="password_verify" maxlength="48" placeholder="Verify Password" value="{{.password}}" /></div>
+	</div>
+	
+	<div>
+		<label for="Create Account"></label>
+		<div><input type="submit" value="Create Account" class="button" /></div>
+	</div>
+	
+	<input type="hidden" name="token" value="{{.token}}">
+</form>
+
+{{template "footer" .}}
+
+	</div> <!-- column -->
+</div> <!-- row -->
+
+{{end}}

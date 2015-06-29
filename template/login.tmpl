@@ -1,0 +1,36 @@
+{{define "title"}}Login{{end}}
+{{define "content"}}
+
+<div class="row">
+	<div class="small-12 column">
+		<h1>{{template "title" .}}</h1>
+
+<form method="post">
+	<div>
+		<label for="email"></label>
+		<div><input type="email" id="email" name="email" maxlength="48" placeholder="Email" value="{{.email}}" /></div>
+	</div>
+	
+	<div>
+		<label for="password"></label>
+		<div><input type="password" id="password" name="password" maxlength="48" placeholder="Password" value="{{.password}}" /></div>
+	</div>
+	
+	<div>
+		<label for="Login"></label>
+		<div><input type="submit" value="Login" class="button" /></div>
+	</div>
+	
+	<input type="hidden" name="token" value="{{.token}}">
+</form>
+
+<p>
+{{LINK "register" "Create a new account."}}
+</p>
+
+{{template "footer" .}}
+
+	</div> <!-- column -->
+</div> <!-- row -->
+
+{{end}}
