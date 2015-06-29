@@ -58,7 +58,7 @@ func router() *httprouter.Router {
 	r := httprouter.New()
 
 	// Set 404 handler
-	r.NotFound = controller.Error404
+	r.NotFound = http.HandlerFunc(controller.Error404)
 
 	// Serve static files, no directory browsing
 	r.GET("/static/*filepath", hr.HandlerFunc(controller.Static))
