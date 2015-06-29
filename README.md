@@ -116,6 +116,13 @@ You are not logged in.
 
 ## Controllers
 
+The controller files all share the same package name. This cuts down on the 
+number of packages when you are mapping the routes. It also forces you to use
+a good naming convention for each of the funcs so you know where each of the 
+funcs are located and what type of HTTP request they each are mapped to.
+
+### These are a few things you can do with controllers.
+
 Access a gorilla session:
 
 ~~~ go
@@ -162,6 +169,29 @@ view.Repopulate([]string{"email"}, r.Form, v.Vars)
 
 // Render the template
 v.Render(w)
+~~~
+
+Query the database:
+
+~~~ go
+// Get database result
+db, _ := mysql.Instance()
+defer db.Link.Close()
+
+// Query and store the result to the user struct
+result := database.User{}
+err := db.Link.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
+
+// Determine if password is correct
+if err == sql.ErrNoRows {
+	// User does not exist
+} else if err != nil {
+	// Display error message
+} else if passhash.MatchString(result.Password, password) {
+	// Password matches!	
+} else {
+	// Password does not match
+}
 ~~~
 
 ## Configuration
@@ -212,3 +242,8 @@ you can reference them in your code. This is config.json:
 	}
 }
 ~~~
+
+## Feedback
+
+All feedback is welcome. Let me know if you have any suggestions, questions, or criticisms. 
+If something is not idiomatic to Golang, please let me know know so we can make it better.
