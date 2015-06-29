@@ -53,13 +53,13 @@ template	- HTML templates
 There are a few external packages:
 
 ~~~
-github.com/gorilla/context	- registry for global request variables
-github.com/gorilla/sessions	- cookie and filesystem sessions
-github.com/go-sql-driver/mysql - MySQL driver
-github.com/jmoiron/sqlx - MySQL general purpose extensions
-github.com/josephspurrier/csrfbanana - CSRF protection for gorilla sessions
-github.com/julienschmidt/httprouter - high performance HTTP request router
-golang.org/x/crypto/bcrypt - password hashing algorithm
+github.com/gorilla/context				- registry for global request variables
+github.com/gorilla/sessions				- cookie and filesystem sessions
+github.com/go-sql-driver/mysql 			- MySQL driver
+github.com/jmoiron/sqlx 				- MySQL general purpose extensions
+github.com/josephspurrier/csrfbanana 	- CSRF protection for gorilla sessions
+github.com/julienschmidt/httprouter 	- high performance HTTP request router
+golang.org/x/crypto/bcrypt 				- password hashing algorithm
 ~~~
 
 The templates are:
@@ -80,7 +80,7 @@ register.tmpl	- register page
 There are a few template funcs that are available to make working with the templates 
 and static files easier:
 
-~~~
+~~~ html
 <!-- CSS files with timestamps -->
 {{CSS "static/css/normalize3.0.0.min.css"}}
 parses to
@@ -99,7 +99,7 @@ parses to
 
 There are a few variables you can use in templates as well:
 
-~~~
+~~~ html
 <!-- Use AuthLevel=auth to determine if a user is logged in -->
 {{if eq .AuthLevel "auth"}}
 You are logged in.
@@ -118,26 +118,24 @@ You are not logged in.
 
 Access a gorilla session:
 
-~~~
+~~~ go
 // Get the current session
 sess := session.Instance(r)
-
 ...
-
 // Close the session after you are finished making changes
 sess.Save(r, w)
 ~~~
 
 Trigger a flash message on the next page load:
 
-~~~
+~~~ go
 sess.AddFlash(view.Flash{"Sorry, no brute force :-)", view.FlashNotice})
 sess.Save(r, w) // Ensure you save the session after making a change to it
 ~~~
 
 Validate form fields are not empty:
 
-~~~
+~~~ go
 // Ensure a user submitted all the required form fields
 if validate, missingField := view.Validate(r, []string{"email", "password"}); !validate {
 	sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
@@ -149,7 +147,7 @@ if validate, missingField := view.Validate(r, []string{"email", "password"}); !v
 
 Render a template:
 
-~~~
+~~~ go
 // Create a new view
 v := view.New(r)
 
@@ -173,7 +171,7 @@ components in one place through the config.json file. If you want to add any
 of your own settings, you can add them to config.json and then to config.go so 
 you can reference them in your code. This is config.json:
 
-~~~
+~~~ json
 {
 	"Server": {
 		"Hostname": "",
