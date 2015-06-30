@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime"
 
 	"github.com/josephspurrier/gowebapp/config"
 	"github.com/josephspurrier/gowebapp/controller"
@@ -28,6 +29,9 @@ import (
 func init() {
 	// Verbose logging with file name and line number
 	log.SetFlags(log.Lshortfile)
+	
+	// Use all cpu cores
+	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
 func main() {
