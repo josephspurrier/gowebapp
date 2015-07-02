@@ -34,21 +34,9 @@ var (
 	mutex              sync.RWMutex
 	mutexPlugins       sync.RWMutex
 	sessionName        string
+	viewInfo           View
+	r                  *http.Request
 )
-
-// LoadTemplates will set the root and child templates
-func LoadTemplates(rootTemp string, childTemps []string) {
-	rootTemplate = rootTemp
-	childTemplates = childTemps
-}
-
-// LoadPlugins will set the plugins for the templates
-func LoadPlugins(fm template.FuncMap) {
-	// Load the plugins
-	mutexPlugins.Lock()
-	pluginCollection = fm
-	mutexPlugins.Unlock()
-}
 
 // View attributes
 type View struct {
@@ -66,14 +54,23 @@ type Flash struct {
 	Class   string
 }
 
-var (
-	viewInfo View
-	r        *http.Request
-)
-
 // Config will set the View information
 func Config(vi View) {
 	viewInfo = vi
+}
+
+// LoadTemplates will set the root and child templates
+func LoadTemplates(rootTemp string, childTemps []string) {
+	rootTemplate = rootTemp
+	childTemplates = childTemps
+}
+
+// LoadPlugins will set the plugins for the templates
+func LoadPlugins(fm template.FuncMap) {
+	// Load the plugins
+	mutexPlugins.Lock()
+	pluginCollection = fm
+	mutexPlugins.Unlock()
 }
 
 // PrependBaseURI prepends the base URI to the string

@@ -205,7 +205,12 @@ you can reference them in your code. This is config.json:
 {
 	"Server": {
 		"Hostname": "",
-		"Port": 80
+		"UseHTTP": true,
+		"UseHTTPS": false,
+		"HTTPPort": 80,
+		"HTTPSPort": 443,
+		"CertFile": "tls/server.crt",
+		"KeyFile": "tls/server.key"
 	},
 	"Session": {
 		"SecretKey": "@r4B?EThaSEh_drudR7P_hub=s#s2Pah",
@@ -242,6 +247,9 @@ you can reference them in your code. This is config.json:
 	}
 }
 ~~~
+
+To enable HTTPS, set UseHTTPS to true, create a folder called tls in the root, 
+and then place the certificate and key files in that folder.
 
 ## Screenshots
 

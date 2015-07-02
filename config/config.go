@@ -2,7 +2,6 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/josephspurrier/gowebapp/shared/mysql"
 	"github.com/josephspurrier/gowebapp/shared/view"
@@ -12,11 +11,6 @@ import (
 
 // Settings is a container for the config data
 var Raw = &Layout{}
-
-// ListenAddress returns the address for ListenAndServe
-func ListenAddress() string {
-	return Raw.Server.Hostname + ":" + fmt.Sprintf("%d", Raw.Server.Port)
-}
 
 // Layout is the top container
 type Layout struct {
@@ -29,8 +23,13 @@ type Layout struct {
 
 // Server stores the hostname and port number
 type Server struct {
-	Hostname string `json:"Hostname"` // Server name
-	Port     int    `json:"Port"`     // Port to listen on
+	Hostname  string `json:"Hostname"`  // Server name
+	UseHTTP   bool   `json:"UseHTTP"`   // Listen on HTTP
+	UseHTTPS  bool   `json:"UseHTTPS"`  // Listen on HTTPS
+	HTTPPort  int    `json:"HTTPPort"`  // HTTP port
+	HTTPSPort int    `json:"HTTPSPort"` // HTTPS port
+	CertFile  string `json:"CertFile"`  // HTTPS certificate
+	KeyFile   string `json:"KeyFile"`   // HTTPS rrivate key
 }
 
 // Session stores session level information

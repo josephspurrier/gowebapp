@@ -14,6 +14,7 @@ import (
 	"github.com/josephspurrier/gowebapp/plugin"
 	"github.com/josephspurrier/gowebapp/shared/jsonconfig"
 	"github.com/josephspurrier/gowebapp/shared/mysql"
+	"github.com/josephspurrier/gowebapp/shared/server"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
 
@@ -29,8 +30,8 @@ import (
 func init() {
 	// Verbose logging with file name and line number
 	log.SetFlags(log.Lshortfile)
-	
-	// Use all cpu cores
+
+	// Use all CPU cores
 	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
@@ -50,8 +51,8 @@ func main() {
 	view.LoadTemplates(config.Raw.Template.Root, config.Raw.Template.Children)
 	view.LoadPlugins(plugin.TemplateFuncMap())
 
-	// Start the HTTP listener
-	log.Fatal(http.ListenAndServe(config.ListenAddress(), handlers()))
+	// Start the listener
+	server.Run(handlers())
 }
 
 // *****************************************************************************
