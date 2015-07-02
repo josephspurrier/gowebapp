@@ -29,7 +29,7 @@ type Server struct {
 	HTTPPort  int    `json:"HTTPPort"`  // HTTP port
 	HTTPSPort int    `json:"HTTPSPort"` // HTTPS port
 	CertFile  string `json:"CertFile"`  // HTTPS certificate
-	KeyFile   string `json:"KeyFile"`   // HTTPS rrivate key
+	KeyFile   string `json:"KeyFile"`   // HTTPS private key
 }
 
 // Session stores session level information
