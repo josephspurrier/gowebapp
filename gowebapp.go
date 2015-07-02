@@ -8,12 +8,12 @@ import (
 
 	"github.com/josephspurrier/gowebapp/config"
 	"github.com/josephspurrier/gowebapp/controller"
+	"github.com/josephspurrier/gowebapp/database"
 	hr "github.com/josephspurrier/gowebapp/middleware/httprouterwrapper"
 	"github.com/josephspurrier/gowebapp/middleware/logrequest"
 	"github.com/josephspurrier/gowebapp/middleware/pprofhandler"
 	"github.com/josephspurrier/gowebapp/plugin"
 	"github.com/josephspurrier/gowebapp/shared/jsonconfig"
-	"github.com/josephspurrier/gowebapp/shared/mysql"
 	"github.com/josephspurrier/gowebapp/shared/server"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
@@ -43,8 +43,8 @@ func main() {
 	session.Start(config.Raw.Session.SecretKey, config.Raw.Session.Options,
 		config.Raw.Session.Name)
 
-	// Connect to MySQL
-	mysql.Config(config.Raw.MySQL)
+	// Connect to database
+	database.Connect(config.Raw.Database)
 
 	// Setup the views
 	view.Config(config.Raw.View)

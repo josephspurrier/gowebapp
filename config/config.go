@@ -3,7 +3,7 @@ package config
 import (
 	"encoding/json"
 
-	"github.com/josephspurrier/gowebapp/shared/mysql"
+	"github.com/josephspurrier/gowebapp/database"
 	"github.com/josephspurrier/gowebapp/shared/view"
 
 	"github.com/gorilla/sessions"
@@ -16,8 +16,8 @@ var Raw = &Layout{}
 type Layout struct {
 	Server   `json:"Server"`
 	Session  `json:"Session"`
-	View     view.View            `json:"View"`
-	MySQL    mysql.ConnectionInfo `json:"MySQL"`
+	View     view.View               `json:"View"`
+	Database database.ConnectionInfo `json:"Database"`
 	Template `json:"Template"`
 }
 

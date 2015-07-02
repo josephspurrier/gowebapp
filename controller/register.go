@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/josephspurrier/gowebapp/database"
-	"github.com/josephspurrier/gowebapp/shared/mysql"
 	"github.com/josephspurrier/gowebapp/shared/passhash"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
@@ -74,13 +73,10 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get database result
-	db, _ := mysql.Instance()
-	defer db.Link.Close()
-	result := database.User{}
-	err := db.Link.Get(&result, "SELECT id FROM user WHERE email = ? LIMIT 1", email)
+	_, err := database.UserIdByEmail(email)
 
 	if err == sql.ErrNoRows { // If success (no user exists with that email)
-		_, ex := db.Link.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
+		ex := database.CreateUser(first_name, last_name, email, password)
 		// Will only error if there is a problem with the query
 		if ex != nil {
 			log.Println(ex)

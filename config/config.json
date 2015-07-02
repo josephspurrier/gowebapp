@@ -1,4 +1,12 @@
 {
+	"Database": {
+		"Username": "root",
+		"Password": "",
+		"Name": "webframework",
+		"Hostname": "127.0.0.1",
+		"Port": 3306,
+		"Parameter": "?parseTime=true"
+	},
 	"Server": {
 		"Hostname": "",
 		"UseHTTP": true,
@@ -19,26 +27,18 @@
 			"HttpOnly": true
 		}
 	},
-	"View": {
-		"BaseURI": "/",
-		"Extension": "tmpl",
-		"Folder": "template",
-		"Name": "blank",
-		"Caching": true
-	},
-	"MySQL": {
-		"Username": "root",
-		"Password": "",
-		"Database": "webframework",
-		"Hostname": "127.0.0.1",
-		"Port": 3306,
-		"Parameter": "?parseTime=true"
-	},
 	"Template": {
 		"Root": "index",
 		"Children": [
 			"menu",
 			"footer"
 		]
+	},
+	"View": {
+		"BaseURI": "/",
+		"Extension": "tmpl",
+		"Folder": "template",
+		"Name": "blank",
+		"Caching": true
 	}
 }

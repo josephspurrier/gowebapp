@@ -7,13 +7,31 @@ import (
 	"net/http"
 
 	"github.com/josephspurrier/gowebapp/database"
-	"github.com/josephspurrier/gowebapp/shared/mysql"
 	"github.com/josephspurrier/gowebapp/shared/passhash"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
 
+	"github.com/gorilla/sessions"
 	"github.com/josephspurrier/csrfbanana"
 )
+
+// loginAttempt increments the number of login attempts in sessions variable
+func loginAttempt(sess *sessions.Session) {
+	// Log the attempt
+	if sess.Values["login_attempt"] == nil {
+		sess.Values["login_attempt"] = 1
+	} else {
+		sess.Values["login_attempt"] = sess.Values["login_attempt"].(int) + 1
+	}
+}
+
+// clearSessionVariables clears all the current session values
+func clearSessionVariables(sess *sessions.Session) {
+	// Clear out all stored values in the cookie
+	for k := range sess.Values {
+		delete(sess.Values, k)
+	}
+}
 
 func LoginGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
@@ -66,19 +84,11 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	// Get database result
-	db, _ := mysql.Instance()
-	defer db.Link.Close()
-	result := database.User{}
-	err := db.Link.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
+	result, err := database.UserByEmail(email)
 
-	// Determine if password is correct
+	// Determine if user exists
 	if err == sql.ErrNoRows {
-		// Log the attempt
-		if sess.Values["login_attempt"] == nil {
-			sess.Values["login_attempt"] = 1
-		} else {
-			sess.Values["login_attempt"] = sess.Values["login_attempt"].(int) + 1
-		}
+		loginAttempt(sess)
 		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values["login_attempt"]), view.FlashWarning})
 		sess.Save(r, w)
 	} else if err != nil {
@@ -93,29 +103,17 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 			sess.Save(r, w)
 		} else {
 			// Login successfully
-			// Clear out all stored values in the cookie
-			for k := range sess.Values {
-				delete(sess.Values, k)
-			}
+			clearSessionVariables(sess)
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
 			sess.Values["id"] = result.Id
 			sess.Values["email"] = email
 			sess.Values["first_name"] = result.First_name
-			err := sess.Save(r, w)
-			if err != nil {
-				log.Println(err)
-			}
+			sess.Save(r, w)
 			http.Redirect(w, r, "/", http.StatusFound)
 			return
 		}
 	} else {
-		// Log the attempt
-		if sess.Values["login_attempt"] == nil {
-			sess.Values["login_attempt"] = 1
-		} else {
-			sess.Values["login_attempt"] = sess.Values["login_attempt"].(int) + 1
-		}
-
+		loginAttempt(sess)
 		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values["login_attempt"]), view.FlashWarning})
 		sess.Save(r, w)
 	}
@@ -130,14 +128,8 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 	// If user is authenticated
 	if sess.Values["id"] != nil {
-		// Clear out all stored values in the cookie
-		for k := range sess.Values {
-			//log.Println("Deleting: ", k)
-			delete(sess.Values, k)
-		}
+		clearSessionVariables(sess)
 		sess.AddFlash(view.Flash{"Goodbye!", view.FlashNotice})
-
-		// Save the cookie
 		sess.Save(r, w)
 	}
 
