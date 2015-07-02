@@ -171,16 +171,11 @@ view.Repopulate([]string{"email"}, r.Form, v.Vars)
 v.Render(w)
 ~~~
 
-Query the database:
+Handle the database query:
 
 ~~~ go
 // Get database result
-db, _ := mysql.Instance()
-defer db.Link.Close()
-
-// Query and store the result to the user struct
-result := database.User{}
-err := db.Link.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
+result, err := database.UserByEmail(email)
 
 // Determine if password is correct
 if err == sql.ErrNoRows {
@@ -194,6 +189,34 @@ if err == sql.ErrNoRows {
 }
 ~~~
 
+## Database
+
+It's a good idea to abstract the database layer out so if you need to make 
+changes, you don't have to look through business logic to find the queries. All
+the queries are stored in database.go:
+
+Connect to the database (only once needed in your application):
+
+~~~ go
+// Connect to MySQL
+mysql.Config(config.Raw.MySQL)
+~~~
+
+Read from the database:
+
+~~~ go
+result := User{}
+err := DB.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
+return result, err
+~~~
+
+Write to the database:
+
+~~~ go
+_, err := DB.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
+return err
+~~~
+
 ## Configuration
 
 To make the web app a little more flexible, you can make changes to different 
@@ -203,6 +226,14 @@ you can reference them in your code. This is config.json:
 
 ~~~ json
 {
+	"Database": {
+		"Username": "root",
+		"Password": "",
+		"Name": "webframework",
+		"Hostname": "127.0.0.1",
+		"Port": 3306,
+		"Parameter": "?parseTime=true"
+	},
 	"Server": {
 		"Hostname": "",
 		"UseHTTP": true,
@@ -223,27 +254,19 @@ you can reference them in your code. This is config.json:
 			"HttpOnly": true
 		}
 	},
-	"View": {
-		"BaseURI": "/",
-		"Extension": "tmpl",
-		"Folder": "template",
-		"Name": "blank",
-		"Caching": true
-	},
-	"MySQL": {
-		"Username": "root",
-		"Password": "",
-		"Database": "webframework",
-		"Hostname": "127.0.0.1",
-		"Port": 3306,
-		"Parameter": "?parseTime=true"
-	},
 	"Template": {
 		"Root": "index",
 		"Children": [
 			"menu",
 			"footer"
 		]
+	},
+	"View": {
+		"BaseURI": "/",
+		"Extension": "tmpl",
+		"Folder": "template",
+		"Name": "blank",
+		"Caching": true
 	}
 }
 ~~~
