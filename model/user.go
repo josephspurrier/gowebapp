@@ -20,7 +20,6 @@ type User struct {
 	Created_at time.Time `db:"created_at"`
 	Updated_at time.Time `db:"updated_at"`
 	Deleted    int       `db:"deleted"`
-	User_status
 }
 
 type User_status struct {
