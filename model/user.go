@@ -10,6 +10,7 @@ import (
 // User
 // *****************************************************************************
 
+// User table contains the information for each user
 type User struct {
 	Id         int       `db:"id"`
 	First_name string    `db:"first_name"`
@@ -22,6 +23,7 @@ type User struct {
 	Deleted    int       `db:"deleted"`
 }
 
+// User_status table contains every possible user status (active/inactive)
 type User_status struct {
 	Id         int       `db:"id"`
 	Status     string    `db:"status"`
