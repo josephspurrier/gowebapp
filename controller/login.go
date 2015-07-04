@@ -37,12 +37,6 @@ func LoginGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
 
-	// If user is authenticated
-	if sess.Values["id"] != nil {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
-
 	// Display the view
 	v := view.New(r)
 	v.Name = "login"
@@ -55,12 +49,6 @@ func LoginGET(w http.ResponseWriter, r *http.Request) {
 func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
-
-	// If user is authenticated
-	if sess.Values["id"] != nil {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
 
 	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
 	if sess.Values["login_attempt"] != nil && sess.Values["login_attempt"].(int) >= 5 {

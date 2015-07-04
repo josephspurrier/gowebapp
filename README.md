@@ -58,6 +58,7 @@ github.com/go-sql-driver/mysql 			- MySQL driver
 github.com/jmoiron/sqlx 				- MySQL general purpose extensions
 github.com/josephspurrier/csrfbanana 	- CSRF protection for gorilla sessions
 github.com/julienschmidt/httprouter 	- high performance HTTP request router
+github.com/justinas/alice				- middleware chaining
 golang.org/x/crypto/bcrypt 				- password hashing algorithm
 ~~~
 
@@ -215,6 +216,16 @@ Write to the database:
 _, err := database.DB.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
 return err
 ~~~
+
+## Middleware
+
+There are a few pieces of middleware included. The package called csrfbanana 
+protects against Cross-Site Request Forgery attacks and prevents double submits. 
+The package httprouterwrapper provides helper functions to make funcs compatible 
+with httprouter. The package logrequest will log every request made against the 
+website to the console. The package pprofhandler enables pprof so it will work 
+with httprouter. In route.go, all the individual routes use alice to make 
+chaining very easy.
 
 ## Configuration
 

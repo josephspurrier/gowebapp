@@ -17,11 +17,15 @@ import (
 	"net/http"
 	"net/http/pprof"
 
+	"github.com/gorilla/context"
 	"github.com/julienschmidt/httprouter"
 )
 
 // Handler routes the pprof pages using httprouter
-func Handler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func Handler(w http.ResponseWriter, r *http.Request) {
+
+	p := context.Get(r, "params").(httprouter.Params)
+
 	switch p.ByName("pprof") {
 	case "/cmdline":
 		pprof.Cmdline(w, r)

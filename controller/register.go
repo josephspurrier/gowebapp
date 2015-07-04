@@ -17,12 +17,6 @@ func RegisterGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
 
-	// Only allow authenticated user
-	if sess.Values["id"] != nil {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
-
 	// Display the view
 	v := view.New(r)
 	v.Name = "register"
@@ -35,12 +29,6 @@ func RegisterGET(w http.ResponseWriter, r *http.Request) {
 func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
-
-	// If user is authenticated
-	if sess.Values["id"] != nil {
-		http.Redirect(w, r, "/", http.StatusFound)
-		return
-	}
 
 	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
 	if sess.Values["register_attempt"] != nil && sess.Values["register_attempt"].(int) >= 5 {

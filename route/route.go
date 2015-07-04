@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/josephspurrier/gowebapp/controller"
+	"github.com/josephspurrier/gowebapp/route/middleware/acl"
 	hr "github.com/josephspurrier/gowebapp/route/middleware/httprouterwrapper"
 	"github.com/josephspurrier/gowebapp/route/middleware/logrequest"
 	"github.com/josephspurrier/gowebapp/route/middleware/pprofhandler"
@@ -12,6 +13,7 @@ import (
 	"github.com/gorilla/context"
 	"github.com/josephspurrier/csrfbanana"
 	"github.com/julienschmidt/httprouter"
+	"github.com/justinas/alice"
 )
 
 // Load the routes and middleware
@@ -27,28 +29,48 @@ func routes() *httprouter.Router {
 	r := httprouter.New()
 
 	// Set 404 handler
-	r.NotFound = http.HandlerFunc(controller.Error404)
+	r.NotFound = alice.
+		New().
+		ThenFunc(controller.Error404)
 
 	// Serve static files, no directory browsing
-	r.GET("/static/*filepath", hr.HandlerFunc(controller.Static))
+	r.GET("/static/*filepath", hr.Handler(alice.
+		New().
+		ThenFunc(controller.Static)))
 
 	// Home page
-	r.GET("/", hr.Handler(http.HandlerFunc(controller.Index)))
+	r.GET("/", hr.Handler(alice.
+		New().
+		ThenFunc(controller.Index)))
 
 	// Login
-	r.GET("/login", hr.HandlerFunc(controller.LoginGET))
-	r.POST("/login", hr.HandlerFunc(controller.LoginPOST))
-	r.GET("/logout", hr.HandlerFunc(controller.Logout))
+	r.GET("/login", hr.Handler(alice.
+		New(acl.DisallowAuth).
+		ThenFunc(controller.LoginGET)))
+	r.POST("/login", hr.Handler(alice.
+		New(acl.DisallowAuth).
+		ThenFunc(controller.LoginPOST)))
+	r.GET("/logout", hr.Handler(alice.
+		New().
+		ThenFunc(controller.Logout)))
 
 	// Register
-	r.GET("/register", hr.HandlerFunc(controller.RegisterGET))
-	r.POST("/register", hr.HandlerFunc(controller.RegisterPOST))
+	r.GET("/register", hr.Handler(alice.
+		New(acl.DisallowAuth).
+		ThenFunc(controller.RegisterGET)))
+	r.POST("/register", hr.Handler(alice.
+		New(acl.DisallowAuth).
+		ThenFunc(controller.RegisterPOST)))
 
 	// About
-	r.GET("/about", hr.HandlerFunc(controller.AboutGET))
+	r.GET("/about", hr.Handler(alice.
+		New().
+		ThenFunc(controller.AboutGET)))
 
 	// Enable Pprof
-	r.GET("/debug/pprof/*pprof", pprofhandler.Handler)
+	r.GET("/debug/pprof/*pprof", hr.Handler(alice.
+		New(acl.DisallowAnon).
+		ThenFunc(pprofhandler.Handler)))
 
 	return r
 }
