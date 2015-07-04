@@ -4,12 +4,11 @@ import (
 	"html/template"
 	"log"
 
-	"github.com/josephspurrier/gowebapp/config"
+	"github.com/josephspurrier/gowebapp/shared/view"
 )
 
 // TemplateFuncMap returns a map of functions that are usable in templates
-func TemplateFuncMap() template.FuncMap {
-	v := config.Raw.View
+func TemplateFuncMap(v view.View) template.FuncMap {
 	f := make(template.FuncMap)
 
 	f["JS"] = func(s string) template.HTML {

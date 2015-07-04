@@ -1,30 +1,22 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
-	"net/http"
 	"os"
 	"runtime"
 
-	"github.com/josephspurrier/gowebapp/config"
-	"github.com/josephspurrier/gowebapp/controller"
-	"github.com/josephspurrier/gowebapp/database"
-	hr "github.com/josephspurrier/gowebapp/middleware/httprouterwrapper"
-	"github.com/josephspurrier/gowebapp/middleware/logrequest"
-	"github.com/josephspurrier/gowebapp/middleware/pprofhandler"
-	"github.com/josephspurrier/gowebapp/plugin"
+	"github.com/josephspurrier/gowebapp/route"
+	"github.com/josephspurrier/gowebapp/shared/database"
 	"github.com/josephspurrier/gowebapp/shared/jsonconfig"
 	"github.com/josephspurrier/gowebapp/shared/server"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
-
-	"github.com/gorilla/context"
-	"github.com/josephspurrier/csrfbanana"
-	"github.com/julienschmidt/httprouter"
+	"github.com/josephspurrier/gowebapp/shared/view/plugin"
 )
 
 // *****************************************************************************
-// Main
+// Application Logic
 // *****************************************************************************
 
 func init() {
@@ -37,83 +29,41 @@ func init() {
 
 func main() {
 	// Load the configuration file
-	jsonconfig.Load("config"+string(os.PathSeparator)+"config.json", config.Raw)
+	jsonconfig.Load("config"+string(os.PathSeparator)+"config.json", config)
 
 	// Start the session
-	session.Start(config.Raw.Session.SecretKey, config.Raw.Session.Options,
-		config.Raw.Session.Name)
+	session.Start(config.Session.SecretKey, config.Session.Options,
+		config.Session.Name)
 
 	// Connect to database
-	database.Connect(config.Raw.Database)
+	database.Connect(config.Database)
 
 	// Setup the views
-	view.Config(config.Raw.View)
-	view.LoadTemplates(config.Raw.Template.Root, config.Raw.Template.Children)
-	view.LoadPlugins(plugin.TemplateFuncMap())
+	view.Configure(config.View)
+	view.LoadTemplates(config.Template.Root, config.Template.Children)
+	view.LoadPlugins(plugin.TemplateFuncMap(config.View))
 
 	// Start the listener
-	server.Run(handlers())
+	server.Run(route.Load(config.Session), config.Server)
 }
 
 // *****************************************************************************
-// Routing
+// Application Settings
 // *****************************************************************************
 
-func router() *httprouter.Router {
-	r := httprouter.New()
+// config the settings variable
+var config = &configuration{}
 
-	// Set 404 handler
-	r.NotFound = http.HandlerFunc(controller.Error404)
-
-	// Serve static files, no directory browsing
-	r.GET("/static/*filepath", hr.HandlerFunc(controller.Static))
-
-	// Home page
-	r.GET("/", hr.Handler(http.HandlerFunc(controller.Index)))
-	//r.GET("/", hr.HandlerFunc(controller.Index))
-
-	// Login
-	r.GET("/login", hr.HandlerFunc(controller.LoginGET))
-	r.POST("/login", hr.HandlerFunc(controller.LoginPOST))
-	r.GET("/logout", hr.HandlerFunc(controller.Logout))
-
-	// Register
-	r.GET("/register", hr.HandlerFunc(controller.RegisterGET))
-	r.POST("/register", hr.HandlerFunc(controller.RegisterPOST))
-
-	// About
-	r.GET("/about", hr.HandlerFunc(controller.AboutGET))
-
-	// Enable Pprof
-	r.GET("/debug/pprof/*pprof", pprofhandler.Handler)
-
-	return r
+// configuration contains the application settings
+type configuration struct {
+	Database database.ConnectionInfo `json:"Database"`
+	Server   server.Server           `json:"Server"`
+	Session  session.Session         `json:"Session"`
+	Template view.Template           `json:"Template"`
+	View     view.View               `json:"View"`
 }
 
-// *****************************************************************************
-// Middleware
-// *****************************************************************************
-
-func handlers() http.Handler {
-	var h http.Handler
-
-	// Route to pages
-	h = router()
-
-	// Prevents CSRF and Double Submits
-	cs := csrfbanana.New(h, session.Store, config.Raw.Session.Name)
-	cs.FailureHandler(http.HandlerFunc(controller.InvalidToken))
-	cs.ClearAfterUsage(true)
-	cs.ExcludeRegexPaths([]string{"/static(.*)"})
-	csrfbanana.TokenLength = 32
-	csrfbanana.TokenName = "token"
-	h = cs
-
-	// Log every request
-	h = logrequest.Handler(h)
-
-	// Clear handler for Gorilla Context
-	h = context.ClearHandler(h)
-
-	return h
+// ParseJSON unmarshals bytes to structs
+func (c *configuration) ParseJSON(b []byte) error {
+	return json.Unmarshal(b, &c)
 }

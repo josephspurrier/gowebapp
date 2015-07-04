@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/josephspurrier/gowebapp/database"
+	"github.com/josephspurrier/gowebapp/model"
 	"github.com/josephspurrier/gowebapp/shared/passhash"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
@@ -73,10 +73,10 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get database result
-	_, err := database.UserIdByEmail(email)
+	_, err := model.UserIdByEmail(email)
 
 	if err == sql.ErrNoRows { // If success (no user exists with that email)
-		ex := database.CreateUser(first_name, last_name, email, password)
+		ex := model.UserCreate(first_name, last_name, email, password)
 		// Will only error if there is a problem with the query
 		if ex != nil {
 			log.Println(ex)

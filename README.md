@@ -11,9 +11,9 @@ To download, run the following command:
 go get github.com/josephspurrier/gowebapp
 ~~~
 
-Start MySQL and import database/database.sql to create the database, tables, and populate one of the tables.
+Start MySQL and import config/database.sql to create the database and tables.
 
-Open config/config.json and edit the MySQL section so the connection information matches your MySQL instance.
+Open config/config.json and edit the Database section so the connection information matches your MySQL instance.
 
 Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
 
@@ -24,7 +24,7 @@ Navigate to the login page, and then to the register page. Create a new user and
 The web app has a public home page, authenticated home page, login page, register page, and about page. 
 
 The entrypoint for the web app is gowebapp.go. The file loads the initial configuration, 
-starts the session, connects to the database, precompiles all the templates, assigns 
+starts the session, connects to the database, sets up the templates, loads 
 the routes, attaches the middleware, and starts the web server.
 
 The front end is built using Foundation with a few small changes to fonts and spacing. The flash 
@@ -40,11 +40,10 @@ by javascript in the static folder.
 The project is organized into the following folders:
 
 ~~~
-config		- config values and matching structs
+config		- application settings and database schema
 controller	- page logic organized by HTTP methods (GET, POST)
-database	- sql file for database creation and matching structs
-middleware	- router middleware for logging and debugging
-plugin		- funcs that are usable in templates
+model		- database queries
+route		- route information and middleware
 shared		- packages for templates, MySQL, cryptography, sessions, and json
 static		- location of statically serve files like CSS and JS
 template	- HTML templates
@@ -198,22 +197,22 @@ the queries are stored in database.go:
 Connect to the database (only once needed in your application):
 
 ~~~ go
-// Connect to MySQL
-mysql.Config(config.Raw.MySQL)
+// Connect to database
+database.Connect(config.Database)
 ~~~
 
 Read from the database:
 
 ~~~ go
 result := User{}
-err := DB.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
+err := database.DB.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
 return result, err
 ~~~
 
 Write to the database:
 
 ~~~ go
-_, err := DB.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
+_, err := database.DB.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
 return err
 ~~~
 

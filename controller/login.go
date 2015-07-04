@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/josephspurrier/gowebapp/database"
+	"github.com/josephspurrier/gowebapp/model"
 	"github.com/josephspurrier/gowebapp/shared/passhash"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
@@ -84,7 +84,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("password")
 
 	// Get database result
-	result, err := database.UserByEmail(email)
+	result, err := model.UserByEmail(email)
 
 	// Determine if user exists
 	if err == sql.ErrNoRows {

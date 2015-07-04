@@ -11,6 +11,13 @@ var (
 	Name  string
 )
 
+// Session stores session level information
+type Session struct {
+	Options   sessions.Options `json:"Options"`   // Pulled from: http://www.gorillatoolkit.org/pkg/sessions#Options
+	Name      string           `json:"Name"`      // Name for: http://www.gorillatoolkit.org/pkg/sessions#CookieStore.Get
+	SecretKey string           `json:"SecretKey"` // Key for: http://www.gorillatoolkit.org/pkg/sessions#CookieStore.New
+}
+
 // Start a session
 func Start(secretKey string, options sessions.Options, name string) {
 	Store = sessions.NewCookieStore([]byte(secretKey))

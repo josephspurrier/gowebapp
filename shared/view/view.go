@@ -38,6 +38,12 @@ var (
 	r                  *http.Request
 )
 
+// Template root and children
+type Template struct {
+	Root     string   `json:"Root"`
+	Children []string `json:"Children"`
+}
+
 // View attributes
 type View struct {
 	BaseURI   string
@@ -54,8 +60,8 @@ type Flash struct {
 	Class   string
 }
 
-// Config will set the View information
-func Config(vi View) {
+// Configure will set the view information
+func Configure(vi View) {
 	viewInfo = vi
 }
 
