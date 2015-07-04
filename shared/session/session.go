@@ -7,8 +7,10 @@ import (
 )
 
 var (
+	// Store is the cookie store
 	Store *sessions.CookieStore
-	Name  string
+	// Name is the session name
+	Name string
 )
 
 // Session stores session level information
@@ -18,11 +20,11 @@ type Session struct {
 	SecretKey string           `json:"SecretKey"` // Key for: http://www.gorillatoolkit.org/pkg/sessions#CookieStore.New
 }
 
-// Start a session
-func Start(secretKey string, options sessions.Options, name string) {
-	Store = sessions.NewCookieStore([]byte(secretKey))
-	Store.Options = &options
-	Name = name
+// Configure the session cookie store
+func Configure(s Session) {
+	Store = sessions.NewCookieStore([]byte(s.SecretKey))
+	Store.Options = &s.Options
+	Name = s.Name
 }
 
 // Session returns a new session, never returns an error

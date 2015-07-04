@@ -23,7 +23,7 @@ Navigate to the login page, and then to the register page. Create a new user and
 
 The web app has a public home page, authenticated home page, login page, register page, and about page. 
 
-The entrypoint for the web app is gowebapp.go. The file loads the initial configuration, 
+The entrypoint for the web app is gowebapp.go. The file loads the application settings, 
 starts the session, connects to the database, sets up the templates, loads 
 the routes, attaches the middleware, and starts the web server.
 
@@ -174,7 +174,7 @@ Handle the database query:
 
 ~~~ go
 // Get database result
-result, err := database.UserByEmail(email)
+result, err := model.UserByEmail(email)
 
 // Determine if password is correct
 if err == sql.ErrNoRows {
@@ -192,7 +192,7 @@ if err == sql.ErrNoRows {
 
 It's a good idea to abstract the database layer out so if you need to make 
 changes, you don't have to look through business logic to find the queries. All
-the queries are stored in database.go:
+the queries are stored in the models folder:
 
 Connect to the database (only once needed in your application):
 
@@ -220,8 +220,9 @@ return err
 
 To make the web app a little more flexible, you can make changes to different 
 components in one place through the config.json file. If you want to add any 
-of your own settings, you can add them to config.json and then to config.go so 
-you can reference them in your code. This is config.json:
+of your own settings, you can add them to config.json and update the structs
+in gowebapp.go and the individual files so you can reference them in your code. 
+This is config.json:
 
 ~~~ json
 {

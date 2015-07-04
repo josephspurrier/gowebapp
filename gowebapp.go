@@ -31,9 +31,8 @@ func main() {
 	// Load the configuration file
 	jsonconfig.Load("config"+string(os.PathSeparator)+"config.json", config)
 
-	// Start the session
-	session.Start(config.Session.SecretKey, config.Session.Options,
-		config.Session.Name)
+	// Configure the session cookie store
+	session.Configure(config.Session)
 
 	// Connect to database
 	database.Connect(config.Database)
@@ -44,7 +43,7 @@ func main() {
 	view.LoadPlugins(plugin.TemplateFuncMap(config.View))
 
 	// Start the listener
-	server.Run(route.Load(config.Session), config.Server)
+	server.Run(route.Load(), config.Server)
 }
 
 // *****************************************************************************

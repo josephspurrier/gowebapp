@@ -15,8 +15,8 @@ import (
 )
 
 // Load the routes and middleware
-func Load(s session.Session) http.Handler {
-	return middleware(s, routes())
+func Load() http.Handler {
+	return middleware(routes())
 }
 
 // *****************************************************************************
@@ -57,9 +57,9 @@ func routes() *httprouter.Router {
 // Middleware
 // *****************************************************************************
 
-func middleware(s session.Session, h http.Handler) http.Handler {
+func middleware(h http.Handler) http.Handler {
 	// Prevents CSRF and Double Submits
-	cs := csrfbanana.New(h, session.Store, s.Name)
+	cs := csrfbanana.New(h, session.Store, session.Name)
 	cs.FailureHandler(http.HandlerFunc(controller.InvalidToken))
 	cs.ClearAfterUsage(true)
 	cs.ExcludeRegexPaths([]string{"/static(.*)"})
