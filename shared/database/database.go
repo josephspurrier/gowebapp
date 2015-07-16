@@ -44,11 +44,11 @@ func Connect(ci ConnectionInfo) {
 
 	// Connect to MySQL
 	if DB, err = mysql.Connect(DSN(ci)); err != nil {
-		log.Fatalln("SQL Driver Error", err)
+		log.Println("SQL Driver Error", err)
 	}
 
 	// Check if MySQL is alive
 	if err := DB.Ping(); err != nil {
-		log.Fatalln("Database Error", err)
+		log.Println("Database Error", err)
 	}
 }
