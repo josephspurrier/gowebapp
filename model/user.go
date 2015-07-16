@@ -12,24 +12,24 @@ import (
 
 // User table contains the information for each user
 type User struct {
-	Id         int       `db:"id"`
+	Id         uint32    `db:"id"`
 	First_name string    `db:"first_name"`
 	Last_name  string    `db:"last_name"`
 	Email      string    `db:"email"`
 	Password   string    `db:"password"`
-	Status_id  int       `db:"status_id"`
+	Status_id  uint8     `db:"status_id"`
 	Created_at time.Time `db:"created_at"`
 	Updated_at time.Time `db:"updated_at"`
-	Deleted    int       `db:"deleted"`
+	Deleted    uint8     `db:"deleted"`
 }
 
 // User_status table contains every possible user status (active/inactive)
 type User_status struct {
-	Id         int       `db:"id"`
+	Id         uint8     `db:"id"`
 	Status     string    `db:"status"`
 	Created_at time.Time `db:"created_at"`
 	Updated_at time.Time `db:"updated_at"`
-	Deleted    int       `db:"deleted"`
+	Deleted    uint8     `db:"deleted"`
 }
 
 // UserByEmail gets user information from email
