@@ -1,11 +1,17 @@
 {
 	"Database": {
-		"Username": "root",
-		"Password": "",
-		"Name": "webframework",
-		"Hostname": "127.0.0.1",
-		"Port": 3306,
-		"Parameter": "?parseTime=true"
+		"Type": "SQLite",
+		"MySQL": {
+			"Username": "root",
+			"Password": "",
+			"Name": "gowebapp",
+			"Hostname": "127.0.0.1",
+			"Port": 3306,
+			"Parameter": "?parseTime=true"
+		},
+		"SQLite": {
+			"Parameter": "gowebapp.db"
+		}
 	},
 	"Server": {
 		"Hostname": "",

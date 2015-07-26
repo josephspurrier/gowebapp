@@ -11,13 +11,13 @@ SET CHARACTER SET utf8;
 /* *****************************************************************************
 // Remove old database
 // ****************************************************************************/
-DROP DATABASE IF EXISTS webframework;
+DROP DATABASE IF EXISTS gowebapp;
 
 /* *****************************************************************************
 // Create new database
 // ****************************************************************************/
-CREATE DATABASE webframework DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
-USE webframework;
+CREATE DATABASE gowebapp DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+USE gowebapp;
 
 /* *****************************************************************************
 // Create the tables
@@ -28,7 +28,7 @@ CREATE TABLE user_status (
     status VARCHAR(25) NOT NULL,
     
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
     
     PRIMARY KEY (id)

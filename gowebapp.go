@@ -55,11 +55,11 @@ var config = &configuration{}
 
 // configuration contains the application settings
 type configuration struct {
-	Database database.ConnectionInfo `json:"Database"`
-	Server   server.Server           `json:"Server"`
-	Session  session.Session         `json:"Session"`
-	Template view.Template           `json:"Template"`
-	View     view.View               `json:"View"`
+	Database database.Databases `json:"Database"`
+	Server   server.Server      `json:"Server"`
+	Session  session.Session    `json:"Session"`
+	Template view.Template      `json:"Template"`
+	View     view.View          `json:"View"`
 }
 
 // ParseJSON unmarshals bytes to structs

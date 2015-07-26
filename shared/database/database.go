@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/josephspurrier/gowebapp/shared/database/mysql"
-
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var (
@@ -14,8 +14,14 @@ var (
 	DB *sqlx.DB
 )
 
-// ConnectionInfo is the details for the database connection
-type ConnectionInfo struct {
+type Databases struct {
+	Type   string
+	MySQL  MySQLInfo
+	SQLite SQLiteInfo
+}
+
+// MySQLInfo is the details for the database connection
+type MySQLInfo struct {
 	Username  string
 	Password  string
 	Name      string
@@ -24,8 +30,13 @@ type ConnectionInfo struct {
 	Parameter string
 }
 
+// SQLiteInfo is the details for the database connection
+type SQLiteInfo struct {
+	Parameter string
+}
+
 // DSN returns the Data Source Name
-func DSN(ci ConnectionInfo) string {
+func DSN(ci MySQLInfo) string {
 	// Example: root:@tcp(localhost:3306)/test
 	return ci.Username +
 		":" +
@@ -39,16 +50,31 @@ func DSN(ci ConnectionInfo) string {
 }
 
 // Connect to the database
-func Connect(ci ConnectionInfo) {
+func Connect(d Databases) {
 	var err error
 
-	// Connect to MySQL
-	if DB, err = mysql.Connect(DSN(ci)); err != nil {
-		log.Println("SQL Driver Error", err)
-	}
+	switch d.Type {
+	case "MySQL":
+		// Connect to MySQL
+		if DB, err = sqlx.Connect("mysql", DSN(d.MySQL)); err != nil {
+			log.Println("SQL Driver Error", err)
+		}
 
-	// Check if MySQL is alive
-	if err := DB.Ping(); err != nil {
-		log.Println("Database Error", err)
+		// Check if is alive
+		if err := DB.Ping(); err != nil {
+			log.Println("Database Error", err)
+		}
+	case "SQLite":
+		// Connect to SQLite
+		if DB, err = sqlx.Connect("sqlite3", d.SQLite.Parameter); err != nil {
+			log.Println("SQL Driver Error", err)
+		}
+
+		// Check if is alive
+		if err := DB.Ping(); err != nil {
+			log.Println("Database Error", err)
+		}
+	default:
+		log.Println("No registered database in config")
 	}
 }
