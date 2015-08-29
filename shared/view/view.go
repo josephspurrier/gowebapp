@@ -65,6 +65,11 @@ func Configure(vi View) {
 	viewInfo = vi
 }
 
+// Read the configuration
+func ReadConfig() View {
+	return viewInfo
+}
+
 // LoadTemplates will set the root and child templates
 func LoadTemplates(rootTemp string, childTemps []string) {
 	rootTemplate = rootTemp
