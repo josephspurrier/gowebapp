@@ -32,3 +32,23 @@ function showFlash(obj)
         hideFlash(rnum);
     });
 }
+
+function flashError(message) {
+	var flash = [{Class: "alert-box alert", Message: message}];
+	showFlash(flash);
+}
+
+function flashSuccess(message) {
+	var flash = [{Class: "alert-box success", Message: message}];	
+	showFlash(flash);
+}
+
+function flashNotice(message) {
+	var flash = [{Class: "alert-box", Message: message}];
+	showFlash(flash);
+}
+
+function flashWarning(message) {
+	var flash = [{Class: "alert-box warning", Message: message}];
+	showFlash(flash);
+}

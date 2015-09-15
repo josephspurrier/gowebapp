@@ -46,7 +46,7 @@ messages are customized so they show up at the bottom right of the screen.
 
 All of the error and warning messages should be either displayed either to the 
 user or in the console. Informational messages are displayed to the user via 
-flash messages that disappear after 5 seconds. The flash messages are controlled 
+flash messages that disappear after 4 seconds. The flash messages are controlled 
 by JavaScript in the static folder.
 
 ## Structure
@@ -141,6 +141,20 @@ It's also easy to add template-specific code before the closing </head> and </bo
 {{define "foot"}}{{JS "//www.google.com/recaptcha/api.js"}}{{end}}
 ~~~
 
+## JavaScript
+
+You can trigger a flash notification using JavaScript.
+
+~~~ javascript
+flashError("You must type in a username.");
+
+flashSuccess("Record created!");
+
+flashNotice("There seems to be a piece missing.");
+
+flashWarning("Something does not seem right...");
+~~~
+
 ## Controllers
 
 The controller files all share the same package name. This cuts down on the 
@@ -160,7 +174,7 @@ sess := session.Instance(r)
 sess.Save(r, w)
 ~~~
 
-Trigger a flash message on the next page load:
+Trigger 1 of 4 different types of flash messages on the next page load (no other code needed):
 
 ~~~ go
 sess.AddFlash(view.Flash{"Sorry, no brute force :-)", view.FlashNotice})
