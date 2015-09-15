@@ -8,6 +8,7 @@ import (
 
 	"github.com/josephspurrier/gowebapp/route"
 	"github.com/josephspurrier/gowebapp/shared/database"
+	"github.com/josephspurrier/gowebapp/shared/email"
 	"github.com/josephspurrier/gowebapp/shared/jsonconfig"
 	"github.com/josephspurrier/gowebapp/shared/server"
 	"github.com/josephspurrier/gowebapp/shared/session"
@@ -56,6 +57,7 @@ var config = &configuration{}
 // configuration contains the application settings
 type configuration struct {
 	Database database.Databases `json:"Database"`
+	Email    email.SMTPInfo     `json:"Email"`
 	Server   server.Server      `json:"Server"`
 	Session  session.Session    `json:"Session"`
 	Template view.Template      `json:"Template"`

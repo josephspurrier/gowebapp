@@ -13,6 +13,13 @@
 			"Parameter": "gowebapp.db"
 		}
 	},
+	"Email": {
+		"Username": "",
+		"Password": "",
+		"Hostname": "",
+		"Port": 25,
+		"From": ""
+	},
 	"Server": {
 		"Hostname": "",
 		"UseHTTP": true,

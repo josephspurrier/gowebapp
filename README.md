@@ -110,6 +110,9 @@ parses to
 {{LINK "register" "Create a new account."}}
 parses to
 <a href="/register">Create a new account.</a>
+
+<!-- Output an unescaped variable (not a safe idea, but I find it useful when troubleshooting) -->
+{{.SomeVariable | NOESCAPE}}
 ~~~
 
 There are a few variables you can use in templates as well:
@@ -245,6 +248,19 @@ if err == sql.ErrNoRows {
 }
 ~~~
 
+Send an email:
+
+~~~ go
+// Email a user
+err := email.SendEmail(email.ReadConfig().From, "This is the subject", "This is the body!")
+if err != nil {
+	log.Println(err)
+	sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+	sess.Save(r, w)
+	return
+}
+~~~
+
 ## Database
 
 It's a good idea to abstract the database layer out so if you need to make 
@@ -306,6 +322,13 @@ This is config.json:
 		"SQLite": {
 			"Parameter": "gowebapp.db"
 		}
+	},
+	"Email": {
+		"Username": "",
+		"Password": "",
+		"Hostname": "",
+		"Port": 25,
+		"From": ""
 	},
 	"Server": {
 		"Hostname": "",
