@@ -212,6 +212,21 @@ view.Repopulate([]string{"email"}, r.Form, v.Vars)
 v.Render(w)
 ~~~
 
+Return the flash messages during an Ajax request:
+
+~~~ go
+// Get session
+sess := session.Instance(r)
+
+// Set the flash message
+sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+sess.Save(r, w)
+
+// Display the flash messages as JSON
+v := view.New(r)
+v.SendFlashes(w)
+~~~
+
 Handle the database query:
 
 ~~~ go

@@ -2,6 +2,7 @@ package view
 
 import (
 	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -301,6 +302,47 @@ func Validate(req *http.Request, required []string) (bool, string) {
 	}
 
 	return true, ""
+}
+
+// SendFlashes allows retrieval of flash messages for using with Ajax
+func (v *View) SendFlashes(w http.ResponseWriter) {
+	// Get session
+	sess := session.Instance(r)
+
+	flashes := peekFlashes(w)
+	sess.Save(r, w)
+
+	js, err := json.Marshal(flashes)
+	if err != nil {
+		http.Error(w, "JSON Error: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func peekFlashes(w http.ResponseWriter) []Flash {
+	// Get session
+	sess := session.Instance(r)
+
+	v := make([]Flash, 0)
+
+	// Get the flashes for the template
+	if flashes := sess.Flashes(); len(flashes) > 0 {
+		v = make([]Flash, len(flashes))
+		for i, f := range flashes {
+			switch f.(type) {
+			case Flash:
+				v[i] = f.(Flash)
+			default:
+				v[i] = Flash{f.(string), "alert-box"}
+			}
+
+		}
+	}
+
+	return v
 }
 
 // Repopulate updates the dst map so the form fields can be refilled
