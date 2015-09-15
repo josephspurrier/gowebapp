@@ -36,7 +36,6 @@ var (
 	mutexPlugins       sync.RWMutex
 	sessionName        string
 	viewInfo           View
-	r                  *http.Request
 )
 
 // Template root and children
@@ -53,6 +52,7 @@ type View struct {
 	Name      string
 	Caching   bool
 	Vars      map[string]interface{}
+	request   *http.Request
 }
 
 // Flash Message
@@ -105,10 +105,10 @@ func New(req *http.Request) *View {
 	v.Vars["BaseURI"] = v.BaseURI
 
 	// This is required for the view to access the request
-	r = req
+	v.request = req
 
 	// Get session
-	session := session.Instance(r)
+	session := session.Instance(v.request)
 
 	// Set the AuthLevel to auth if the user is logged in
 	if session.Values["id"] != nil {
@@ -190,7 +190,7 @@ func (v *View) RenderSingle(w http.ResponseWriter) {
 	tc := templates
 
 	// Get session
-	sess := session.Instance(r)
+	sess := session.Instance(v.request)
 
 	// Get the flashes for the template
 	if flashes := sess.Flashes(); len(flashes) > 0 {
@@ -204,7 +204,7 @@ func (v *View) RenderSingle(w http.ResponseWriter) {
 			}
 
 		}
-		sess.Save(r, w)
+		sess.Save(v.request, w)
 	}
 
 	// Display the content to the screen
@@ -266,7 +266,7 @@ func (v *View) Render(w http.ResponseWriter) {
 	}
 
 	// Get session
-	sess := session.Instance(r)
+	sess := session.Instance(v.request)
 
 	// Get the flashes for the template
 	if flashes := sess.Flashes(); len(flashes) > 0 {
@@ -280,7 +280,7 @@ func (v *View) Render(w http.ResponseWriter) {
 			}
 
 		}
-		sess.Save(r, w)
+		sess.Save(v.request, w)
 	}
 
 	// Display the content to the screen
@@ -305,10 +305,10 @@ func Validate(req *http.Request, required []string) (bool, string) {
 // SendFlashes allows retrieval of flash messages for using with Ajax
 func (v *View) SendFlashes(w http.ResponseWriter) {
 	// Get session
-	sess := session.Instance(r)
+	sess := session.Instance(v.request)
 
-	flashes := peekFlashes(w)
-	sess.Save(r, w)
+	flashes := peekFlashes(w, v.request)
+	sess.Save(v.request, w)
 
 	js, err := json.Marshal(flashes)
 	if err != nil {
@@ -320,7 +320,7 @@ func (v *View) SendFlashes(w http.ResponseWriter) {
 	w.Write(js)
 }
 
-func peekFlashes(w http.ResponseWriter) []Flash {
+func peekFlashes(w http.ResponseWriter, r *http.Request) []Flash {
 	// Get session
 	sess := session.Instance(r)
 
