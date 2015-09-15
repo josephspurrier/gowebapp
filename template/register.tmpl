@@ -1,5 +1,5 @@
 {{define "title"}}Create an Account{{end}}
-{{define "head"}}{{end}}
+{{define "head"}}{{JS "//www.google.com/recaptcha/api.js"}}{{end}}
 {{define "content"}}
 
 <div class="row">
@@ -29,6 +29,10 @@
 		<label for="password_verify"></label>
 		<div><input type="password" id="password_verify" name="password_verify" maxlength="48" placeholder="Verify Password" value="{{.password}}" /></div>
 	</div>
+	
+	{{if SITEKEY}}
+	<div class="g-recaptcha" data-sitekey="{{SITEKEY}}" style="margin-bottom: 1rem;"></div>
+	{{end}}
 	
 	<div>
 		<label for="Create Account"></label>

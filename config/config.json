@@ -20,6 +20,11 @@
 		"Port": 25,
 		"From": ""
 	},
+	"Recaptcha": {
+		"Enabled": false,
+		"Secret": "",
+		"SiteKey": ""
+	},
 	"Server": {
 		"Hostname": "",
 		"UseHTTP": true,

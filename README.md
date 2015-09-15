@@ -69,6 +69,7 @@ There are a few external packages:
 github.com/gorilla/context				- registry for global request variables
 github.com/gorilla/sessions				- cookie and filesystem sessions
 github.com/go-sql-driver/mysql 			- MySQL driver
+github.com/haisum/recaptcha				- Google reCAPTCHA support
 github.com/jmoiron/sqlx 				- MySQL general purpose extensions
 github.com/josephspurrier/csrfbanana 	- CSRF protection for gorilla sessions
 github.com/julienschmidt/httprouter 	- high performance HTTP request router
@@ -261,6 +262,18 @@ if err != nil {
 }
 ~~~
 
+Validate a form if the Google reCAPTCHA is enabled in the config:
+
+~~~ go
+// Validate with Google reCAPTCHA
+if !recaptcha.Verified(r) {
+	sess.AddFlash(view.Flash{"reCAPTCHA invalid!", view.FlashError})
+	sess.Save(r, w)
+	RegisterGET(w, r)
+	return
+}
+~~~
+
 ## Database
 
 It's a good idea to abstract the database layer out so if you need to make 
@@ -329,6 +342,11 @@ This is config.json:
 		"Hostname": "",
 		"Port": 25,
 		"From": ""
+	},
+	"Recaptcha": {
+		"Enabled": false,
+		"Secret": "",
+		"SiteKey": ""
 	},
 	"Server": {
 		"Hostname": "",

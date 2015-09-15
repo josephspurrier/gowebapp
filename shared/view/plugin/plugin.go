@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 
+	"github.com/josephspurrier/gowebapp/shared/recaptcha"
 	"github.com/josephspurrier/gowebapp/shared/view"
 )
 
@@ -39,6 +40,14 @@ func TemplateFuncMap(v view.View) template.FuncMap {
 
 	f["LINK"] = func(path, name string) template.HTML {
 		return template.HTML(`<a href="` + v.PrependBaseURI(path) + `">` + name + `</a>`)
+	}
+
+	f["SITEKEY"] = func() template.HTML {
+		if recaptcha.ReadConfig().Enabled {
+			return template.HTML(recaptcha.ReadConfig().SiteKey)
+		}
+
+		return template.HTML("")
 	}
 
 	return f

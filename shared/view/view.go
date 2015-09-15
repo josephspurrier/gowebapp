@@ -96,9 +96,6 @@ func New(req *http.Request) *View {
 	v.Vars = make(map[string]interface{})
 	v.Vars["AuthLevel"] = "anon"
 
-	//v.Vars["flashclass"] = "alert-box alert"
-	//v.Vars["flashmessage"] = "Cool!"
-
 	v.BaseURI = viewInfo.BaseURI
 	v.Extension = viewInfo.Extension
 	v.Folder = viewInfo.Folder
@@ -107,6 +104,7 @@ func New(req *http.Request) *View {
 	// Make sure BaseURI is available in the templates
 	v.Vars["BaseURI"] = v.BaseURI
 
+	// This is required for the view to access the request
 	r = req
 
 	// Get session

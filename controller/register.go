@@ -7,6 +7,7 @@ import (
 
 	"github.com/josephspurrier/gowebapp/model"
 	"github.com/josephspurrier/gowebapp/shared/passhash"
+	"github.com/josephspurrier/gowebapp/shared/recaptcha"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
 
@@ -40,6 +41,14 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	// Validate with required fields
 	if validate, missingField := view.Validate(r, []string{"first_name", "last_name", "email", "password"}); !validate {
 		sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
+		sess.Save(r, w)
+		RegisterGET(w, r)
+		return
+	}
+
+	// Validate with Google reCAPTCHA
+	if !recaptcha.Verified(r) {
+		sess.AddFlash(view.Flash{"reCAPTCHA invalid!", view.FlashError})
 		sess.Save(r, w)
 		RegisterGET(w, r)
 		return

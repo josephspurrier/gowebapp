@@ -10,6 +10,7 @@ import (
 	"github.com/josephspurrier/gowebapp/shared/database"
 	"github.com/josephspurrier/gowebapp/shared/email"
 	"github.com/josephspurrier/gowebapp/shared/jsonconfig"
+	"github.com/josephspurrier/gowebapp/shared/recaptcha"
 	"github.com/josephspurrier/gowebapp/shared/server"
 	"github.com/josephspurrier/gowebapp/shared/session"
 	"github.com/josephspurrier/gowebapp/shared/view"
@@ -38,6 +39,9 @@ func main() {
 	// Connect to database
 	database.Connect(config.Database)
 
+	// Configure the Google reCAPTCHA prior to loading view plugins
+	recaptcha.Configure(config.Recaptcha)
+
 	// Setup the views
 	view.Configure(config.View)
 	view.LoadTemplates(config.Template.Root, config.Template.Children)
@@ -56,12 +60,13 @@ var config = &configuration{}
 
 // configuration contains the application settings
 type configuration struct {
-	Database database.Databases `json:"Database"`
-	Email    email.SMTPInfo     `json:"Email"`
-	Server   server.Server      `json:"Server"`
-	Session  session.Session    `json:"Session"`
-	Template view.Template      `json:"Template"`
-	View     view.View          `json:"View"`
+	Database  database.Databases      `json:"Database"`
+	Email     email.SMTPInfo          `json:"Email"`
+	Recaptcha recaptcha.RecaptchaInfo `json:"Recaptcha"`
+	Server    server.Server           `json:"Server"`
+	Session   session.Session         `json:"Session"`
+	Template  view.Template           `json:"Template"`
+	View      view.View               `json:"View"`
 }
 
 // ParseJSON unmarshals bytes to structs
