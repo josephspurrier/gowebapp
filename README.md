@@ -47,7 +47,7 @@ messages are customized so they show up at the bottom right of the screen.
 All of the error and warning messages should be either displayed either to the 
 user or in the console. Informational messages are displayed to the user via 
 flash messages that disappear after 5 seconds. The flash messages are controlled 
-by javascript in the static folder.
+by JavaScript in the static folder.
 
 ## Structure
 
@@ -81,9 +81,9 @@ The templates are:
 
 ~~~
 about.tmpl		- quick info about the app
-anon_home.tmpl	- public home page
-auth_home.tmpl	- home page once you login
 footer.tmpl		- footer
+home_anon.tmpl	- public home page
+home_auth.tmpl	- home page once you login
 index.tmpl		- base template for all the pages
 login.tmpl		- login page
 menu.tmpl		- menu at the top of all the pages
@@ -127,6 +127,18 @@ You are not logged in.
 
 <!-- Use token to output the CSRF token in a form -->
 <input type="hidden" name="token" value="{{.token}}">
+~~~
+
+It's also easy to add template-specific code before the closing </head> and </body> tags:
+
+~~~ html
+<!-- Code is added before the closing </head> tag -->
+{{define "head"}}<meta name="robots" content="noindex">{{end}}
+
+...
+
+<!-- Code is added before the closing </body> tag -->
+{{define "foot"}}{{JS "//www.google.com/recaptcha/api.js"}}{{end}}
 ~~~
 
 ## Controllers

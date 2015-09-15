@@ -39,6 +39,8 @@
       <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	
+	{{template "head" .}}
     
   </head>
   <body>
@@ -68,6 +70,8 @@
 {{JS "static/js/underscore-min-1.7.0.js"}}
 {{JS "static/js/foundation.js"}}
 {{JS "static/js/global.js"}}
+
+{{template "foot" .}}
 
   </body>
 </html>

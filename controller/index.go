@@ -17,13 +17,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	if session.Values["id"] != nil {
 		// Display the view
 		v := view.New(r)
-		v.Name = "auth_home"
+		v.Name = "home_auth"
 		v.Vars["first_name"] = session.Values["first_name"]
 		v.Render(w)
 	} else {
 		// Display the view
 		v := view.New(r)
-		v.Name = "anon_home"
+		v.Name = "home_anon"
 		v.Render(w)
 		return
 	}
