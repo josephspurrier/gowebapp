@@ -19,17 +19,17 @@ type Server struct {
 }
 
 // Run starts the HTTP and/or HTTPS listener
-func Run(handlers http.Handler, s Server) {
+func Run(httpHandlers http.Handler, httpsHandlers http.Handler, s Server) {
 	if s.UseHTTP && s.UseHTTPS {
 		go func() {
-			startHTTPS(handlers, s)
+			startHTTPS(httpsHandlers, s)
 		}()
 
-		startHTTP(handlers, s)
+		startHTTP(httpHandlers, s)
 	} else if s.UseHTTP {
-		startHTTP(handlers, s)
+		startHTTP(httpHandlers, s)
 	} else if s.UseHTTPS {
-		startHTTPS(handlers, s)
+		startHTTPS(httpsHandlers, s)
 	} else {
 		log.Println("Config file does not specify a listener to start")
 	}

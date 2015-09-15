@@ -43,7 +43,7 @@ func main() {
 	view.LoadPlugins(plugin.TemplateFuncMap(config.View))
 
 	// Start the listener
-	server.Run(route.Load(), config.Server)
+	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)
 }
 
 // *****************************************************************************

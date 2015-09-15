@@ -9,6 +9,7 @@ import (
 	"github.com/josephspurrier/gowebapp/route/middleware/logrequest"
 	"github.com/josephspurrier/gowebapp/route/middleware/pprofhandler"
 	"github.com/josephspurrier/gowebapp/shared/session"
+	"github.com/josephspurrier/gowebapp/shared/view"
 
 	"github.com/gorilla/context"
 	"github.com/josephspurrier/csrfbanana"
@@ -19,6 +20,24 @@ import (
 // Load the routes and middleware
 func Load() http.Handler {
 	return middleware(routes())
+}
+
+// Load the HTTP routes and middleware
+func LoadHTTPS() http.Handler {
+	return middleware(routes())
+}
+
+// Load the HTTPS routes and middleware
+func LoadHTTP() http.Handler {
+	return middleware(routes())
+
+	// Uncomment this and comment out the line above to always redirect to HTTPS
+	//return http.HandlerFunc(redirectToHTTPS)
+}
+
+// Optional method to make it easy to redirect from HTTP to HTTPS
+func redirectToHTTPS(w http.ResponseWriter, req *http.Request) {
+	http.Redirect(w, req, view.ReadConfig().BaseURI, http.StatusMovedPermanently)
 }
 
 // *****************************************************************************
@@ -87,6 +106,7 @@ func middleware(h http.Handler) http.Handler {
 	cs.ExcludeRegexPaths([]string{"/static(.*)"})
 	csrfbanana.TokenLength = 32
 	csrfbanana.TokenName = "token"
+	csrfbanana.SingleToken = false
 	h = cs
 
 	// Log every request
