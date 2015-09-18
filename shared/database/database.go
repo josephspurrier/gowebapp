@@ -61,7 +61,7 @@ func Connect(d Databases) {
 		}
 
 		// Check if is alive
-		if err := DB.Ping(); err != nil {
+		if err = DB.Ping(); err != nil {
 			log.Println("Database Error", err)
 		}
 	case "SQLite":
@@ -71,7 +71,7 @@ func Connect(d Databases) {
 		}
 
 		// Check if is alive
-		if err := DB.Ping(); err != nil {
+		if err = DB.Ping(); err != nil {
 			log.Println("Database Error", err)
 		}
 	default:
