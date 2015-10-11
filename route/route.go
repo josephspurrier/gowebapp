@@ -9,7 +9,6 @@ import (
 	"github.com/josephspurrier/gowebapp/route/middleware/logrequest"
 	"github.com/josephspurrier/gowebapp/route/middleware/pprofhandler"
 	"github.com/josephspurrier/gowebapp/shared/session"
-	"github.com/josephspurrier/gowebapp/shared/view"
 
 	"github.com/gorilla/context"
 	"github.com/josephspurrier/csrfbanana"
@@ -37,7 +36,7 @@ func LoadHTTP() http.Handler {
 
 // Optional method to make it easy to redirect from HTTP to HTTPS
 func redirectToHTTPS(w http.ResponseWriter, req *http.Request) {
-	http.Redirect(w, req, view.ReadConfig().BaseURI, http.StatusMovedPermanently)
+	http.Redirect(w, req, "https://"+req.Host, http.StatusMovedPermanently)
 }
 
 // *****************************************************************************
