@@ -1,5 +1,5 @@
 # GoWebApp
-Basic Web Application in Golang
+Basic MVC Web Application in Golang
 
 This project demonstrates how to structure and build a website using the Go language without a framework.
 
