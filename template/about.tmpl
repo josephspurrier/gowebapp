@@ -1,13 +1,13 @@
 {{define "title"}}About{{end}}
 {{define "head"}}{{end}}
 {{define "content"}}
-<div class="row">
-	<div class="large-12 columns">
+<div class="container">
+	<div class="page-header">
 		<h1>{{template "title" .}}</h1>
-		<p>This project demonstrates how to structure and build a website using 
-		the Go language without a framework.</p>
-		{{template "footer" .}}
 	</div>
+	<p>This project demonstrates how to structure and build a website using 
+	the Go language without a framework.</p>
+	{{template "footer" .}}
 </div>
 {{end}}
 {{define "foot"}}{{end}}

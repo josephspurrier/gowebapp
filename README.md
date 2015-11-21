@@ -41,7 +41,7 @@ The entrypoint for the web app is gowebapp.go. The file loads the application se
 starts the session, connects to the database, sets up the templates, loads 
 the routes, attaches the middleware, and starts the web server.
 
-The front end is built using Foundation with a few small changes to fonts and spacing. The flash 
+The front end is built using Bootstrap with a few small changes to fonts and spacing. The flash 
 messages are customized so they show up at the bottom right of the screen.
 
 All of the error and warning messages should be either displayed either to the 
@@ -392,23 +392,23 @@ and then place the certificate and key files in that folder.
 
 Public Home:
 
-![Image of Public Home](http://josephspurrier.com/images/gowebapp-home.JPG)
+![Image of Public Home](https://cloud.githubusercontent.com/assets/2394539/11319464/e2cd0eac-9045-11e5-9b24-5e480240cd69.jpg)
 
 About:
 
-![Image of About](http://josephspurrier.com/images/gowebapp-about.JPG)
+![Image of About](https://cloud.githubusercontent.com/assets/2394539/11319462/e2c4d2d2-9045-11e5-805f-8b40598c92c3.jpg)
 
 Register:
 
-![Image of Register](http://josephspurrier.com/images/gowebapp-register.JPG)
+![Image of Register](https://cloud.githubusercontent.com/assets/2394539/11319466/e2d03500-9045-11e5-9c8e-c28fe663ed0f.jpg)
 
 Login:
 
-![Image of Login](http://josephspurrier.com/images/gowebapp-login.JPG)
+![Image of Login](https://cloud.githubusercontent.com/assets/2394539/11319463/e2cd1a00-9045-11e5-8b8e-68030d870cbe.jpg)
 
 Authenticated Home:
 
-![Image of Auth Home](http://josephspurrier.com/images/gowebapp-loggedin.JPG)
+![Image of Auth Home](https://cloud.githubusercontent.com/assets/2394539/11319465/e2cecd96-9045-11e5-8602-f4d0f1949136.jpg)
 
 ## Feedback
 

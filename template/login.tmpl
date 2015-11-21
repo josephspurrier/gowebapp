@@ -2,37 +2,32 @@
 {{define "head"}}{{end}}
 {{define "content"}}
 
-<div class="row">
-	<div class="small-12 column">
+<div class="container">
+	<div class="page-header">
 		<h1>{{template "title" .}}</h1>
-
-<form method="post">
-	<div>
-		<label for="email"></label>
-		<div><input type="email" id="email" name="email" maxlength="48" placeholder="Email" value="{{.email}}" /></div>
 	</div>
+	<form method="post">
+		<div class="form-group">
+			<label for="email">Email Address</label>
+			<div><input type="email" class="form-control" id="email" name="email" maxlength="48" placeholder="Email" value="{{.email}}" /></div>
+		</div>
+		
+		<div class="form-group">
+			<label for="password">Password</label>
+			<div><input type="password" class="form-control" id="password" name="password" maxlength="48" placeholder="Password" value="{{.password}}" /></div>
+		</div>
+		
+		<input type="submit" class="btn btn-primary" value="Login" class="button" />
+		
+		<input type="hidden" name="token" value="{{.token}}">
+	</form>
 	
-	<div>
-		<label for="password"></label>
-		<div><input type="password" id="password" name="password" maxlength="48" placeholder="Password" value="{{.password}}" /></div>
-	</div>
+	<p style="margin-top: 15px;">
+	{{LINK "register" "Create a new account."}}
+	</p>
 	
-	<div>
-		<label for="Login"></label>
-		<div><input type="submit" value="Login" class="button" /></div>
-	</div>
-	
-	<input type="hidden" name="token" value="{{.token}}">
-</form>
-
-<p>
-{{LINK "register" "Create a new account."}}
-</p>
-
-{{template "footer" .}}
-
-	</div> <!-- column -->
-</div> <!-- row -->
+	{{template "footer" .}}
+</div>
 
 {{end}}
 {{define "foot"}}{{end}}

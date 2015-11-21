@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
-<html class="no-js" lang="en">
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-    <title>{{template "title" .}}</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content=""> 
+	<meta name="keywords" content="">
+	<meta name="author" content="">
+	
+	<title>{{template "title" .}}</title>	
+	
 	<!-- Favicons from http://realfavicongenerator.net -->
 	<link rel="apple-touch-icon" sizes="57x57" href="/static/favicons/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="114x114" href="/static/favicons/apple-touch-icon-114x114.png">
@@ -25,53 +28,57 @@
 	<link rel="icon" type="image/png" href="/static/favicons/favicon-32x32.png" sizes="32x32">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="msapplication-TileImage" content="/static/favicons/mstile-144x144.png">
-
-	{{CSS "static/css/normalize3.0.0.min.css"}}
-	{{CSS "static/css/foundation.css"}}
+	
+	{{CSS "static/css/bootstrap.min.css"}}
 	{{CSS "//fonts.googleapis.com/css?family=Open+Sans:300,400,bold,italic"}}
 	{{CSS "static/css/global.css"}}
 	
-	{{JS "static/js/modernizr2.7.1.min.js"}}
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="//oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+		<script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
 	
 	{{template "head" .}}
-    
   </head>
   <body>
 
-<nav class="top-bar" data-topbar>
-  <ul class="title-area">
-    <li class="name">
-      <h1>{{LINK "" "Go Web App"}}</h1>
-    </li>
-    <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
-  </ul>
-  <section class="top-bar-section">
-   {{template "menu.tmpl" .}}
-  </section>
-</nav>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{.BaseURI}}">Go Web App</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+		  {{template "menu.tmpl" .}}
+        </div>
+      </div>
+    </nav>
 
-<input id="BaseURI" type="hidden" value="{{.BaseURI}}">
-<div id="flash-container">
-{{range $fm := .flashes}}
-	<div data-alert id="flash-message" class="alert-box-fixed0 alert-box-fixed {{.Class}}">{{.Message}}<a href="#" class="close">&times;</a></div>
-{{end}}
-</div>
+	<input id="BaseURI" type="hidden" value="{{.BaseURI}}">
+	<div id="flash-container">
+	{{range $fm := .flashes}}
+		<div id="flash-message" class="alert alert-box-fixed0 alert-box-fixed alert-dismissible {{.Class}}" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{.Message}}</div>
+		<!-- <div data-alert id="flash-message" class="alert-box-fixed0 alert-box-fixed {{.Class}}">{{.Message}}<a href="#" class="close">&times;</a></div> -->
+	{{end}}
+	</div>
 
-{{template "content" .}}
-
-{{JS "static/js/jquery1.11.0.min.js"}}
-{{JS "static/js/underscore-min-1.7.0.js"}}
-{{JS "static/js/foundation.js"}}
-{{JS "static/js/global.js"}}
-
-{{template "foot" .}}
+	{{template "content" .}}
+	
+	{{JS "static/js/jquery1.11.0.min.js"}}
+	{{JS "static/js/underscore-min.js"}}
+	{{JS "static/js/bootstrap.min.js"}}
+	{{JS "static/js/global.js"}}
+	
+	{{template "foot" .}}
 
   </body>
 </html>

@@ -23,10 +23,10 @@ func init() {
 }
 
 var (
-	FlashError   = "alert-box alert"
-	FlashSuccess = "alert-box success"
-	FlashNotice  = "alert-box"
-	FlashWarning = "alert-box warning"
+	FlashError   = "alert-danger"
+	FlashSuccess = "alert-success"
+	FlashNotice  = "alert-info"
+	FlashWarning = "alert-warning"
 
 	childTemplates     []string
 	rootTemplate       string

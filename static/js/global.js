@@ -1,5 +1,5 @@
 $(function() {
-    $(document).foundation();
+    //$(document).foundation();
 		
 	// Hide any messages after a few seconds
     hideFlash();
@@ -25,30 +25,31 @@ function showFlash(obj)
     $('#flash-container').html();
     $(obj).each(function(i, v) {
         var rnum = _.random(0, 100000);
-		var message = '<div data-alert id="flash-message" class="alert-box-fixed'
-		+ rnum + ' alert-box-fixed alert-box '+v.cssclass+'">'
-		+ v.message + '<a href="#" class="close">&times;</a></div>';
+		var message = '<div id="flash-message" class="alert-box-fixed'
+		+ rnum + ' alert-box-fixed alert alert-dismissible '+v.cssclass+'">'
+		+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+		+ v.message + '</div>';
         $('#flash-container').prepend(message);
         hideFlash(rnum);
     });
 }
 
 function flashError(message) {
-	var flash = [{Class: "alert-box alert", Message: message}];
+	var flash = [{Class: "alert-danger", Message: message}];
 	showFlash(flash);
 }
 
 function flashSuccess(message) {
-	var flash = [{Class: "alert-box success", Message: message}];	
+	var flash = [{Class: "alert-success", Message: message}];	
 	showFlash(flash);
 }
 
 function flashNotice(message) {
-	var flash = [{Class: "alert-box", Message: message}];
+	var flash = [{Class: "alert-info", Message: message}];
 	showFlash(flash);
 }
 
 function flashWarning(message) {
-	var flash = [{Class: "alert-box warning", Message: message}];
+	var flash = [{Class: "alert-warning", Message: message}];
 	showFlash(flash);
 }
