@@ -59,7 +59,7 @@ controller	- page logic organized by HTTP methods (GET, POST)
 model		- database queries
 route		- route information and middleware
 shared		- packages for templates, MySQL, cryptography, sessions, and json
-static		- location of statically serve files like CSS and JS
+static		- location of statically served files like CSS and JS
 template	- HTML templates
 ~~~
 
