@@ -108,10 +108,10 @@ func New(req *http.Request) *View {
 	v.request = req
 
 	// Get session
-	session := session.Instance(v.request)
+	sess := session.Instance(v.request)
 
 	// Set the AuthLevel to auth if the user is logged in
-	if session.Values["id"] != nil {
+	if sess.Values["id"] != nil {
 		v.Vars["AuthLevel"] = "auth"
 	}
 
