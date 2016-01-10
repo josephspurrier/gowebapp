@@ -1,8 +1,10 @@
 package recaptcha
 
 import (
-	"github.com/haisum/recaptcha"
+	"html/template"
 	"net/http"
+
+	"github.com/haisum/recaptcha"
 )
 
 var (
@@ -37,4 +39,19 @@ func Verified(r *http.Request) bool {
 		Secret: recap.Secret,
 	}
 	return re.Verify(*r)
+}
+
+// RecaptchaFuncMapp returns a map of functions that are usable in templates
+func RecaptchaPlugin() template.FuncMap {
+	f := make(template.FuncMap)
+
+	f["RECAPTCHA_SITEKEY"] = func() template.HTML {
+		if ReadConfig().Enabled {
+			return template.HTML(ReadConfig().SiteKey)
+		}
+
+		return template.HTML("")
+	}
+
+	return f
 }

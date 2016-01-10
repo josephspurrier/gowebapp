@@ -30,8 +30,8 @@
 			<div><input type="password" class="form-control" id="password_verify" name="password_verify" maxlength="48" placeholder="Verify Password" value="{{.password}}" /></div>
 		</div>
 		
-		{{if SITEKEY}}
-		<div class="g-recaptcha" data-sitekey="{{SITEKEY}}" style="margin-bottom: 1rem;"></div>
+		{{if RECAPTCHA_SITEKEY}}
+		<div class="g-recaptcha" data-sitekey="{{RECAPTCHA_SITEKEY}}" style="margin-bottom: 1rem;"></div>
 		{{end}}
 		
 		<input type="submit" value="Create Account" class="btn btn-primary" />

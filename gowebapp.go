@@ -45,7 +45,10 @@ func main() {
 	// Setup the views
 	view.Configure(config.View)
 	view.LoadTemplates(config.Template.Root, config.Template.Children)
-	view.LoadPlugins(plugin.TemplateFuncMap(config.View))
+	view.LoadPlugins(
+		plugin.TagHelper(config.View),
+		plugin.NoEscape(),
+		recaptcha.RecaptchaPlugin())
 
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)

@@ -4,12 +4,14 @@ import (
 	"html/template"
 	"log"
 
-	"github.com/josephspurrier/gowebapp/shared/recaptcha"
 	"github.com/josephspurrier/gowebapp/shared/view"
 )
 
-// TemplateFuncMap returns a map of functions that are usable in templates
-func TemplateFuncMap(v view.View) template.FuncMap {
+// TagHelper returns a template.FuncMap
+// * JS returns JavaScript tag
+// * CSS returns stylesheet tag
+// * LINK returns hyperlink tag
+func TagHelper(v view.View) template.FuncMap {
 	f := make(template.FuncMap)
 
 	f["JS"] = func(s string) template.HTML {
@@ -34,20 +36,8 @@ func TemplateFuncMap(v view.View) template.FuncMap {
 		return template.HTML(`<link rel="stylesheet" type="text/css" href="` + path + `" />`)
 	}
 
-	f["NOESCAPE"] = func(name string) template.HTML {
-		return template.HTML(name)
-	}
-
 	f["LINK"] = func(path, name string) template.HTML {
 		return template.HTML(`<a href="` + v.PrependBaseURI(path) + `">` + name + `</a>`)
-	}
-
-	f["SITEKEY"] = func() template.HTML {
-		if recaptcha.ReadConfig().Enabled {
-			return template.HTML(recaptcha.ReadConfig().SiteKey)
-		}
-
-		return template.HTML("")
 	}
 
 	return f

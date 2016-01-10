@@ -5,7 +5,7 @@
 	<div class="page-header">
 		<h1>{{template "title" .}}</h1>
 	</div>
-	<p>Click <a href="{{.BaseURI}}login">here</a> to login.</p>
+	<p>Click {{LINK "login" "here"}} to login.</p>
 	{{template "footer" .}}
 </div>
 {{end}}

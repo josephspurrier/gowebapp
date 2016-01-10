@@ -77,8 +77,21 @@ func LoadTemplates(rootTemp string, childTemps []string) {
 	childTemplates = childTemps
 }
 
-// LoadPlugins will set the plugins for the templates
-func LoadPlugins(fm template.FuncMap) {
+// LoadPlugins will combine all template.FuncMaps into one map and then set the
+// plugins for the templates
+// If a func already exists, it is rewritten, there is no error
+func LoadPlugins(fms ...template.FuncMap) {
+	// Final FuncMap
+	fm := make(template.FuncMap)
+
+	// Loop through the maps
+	for _, m := range fms {
+		// Loop through each key and value
+		for k, v := range m {
+			fm[k] = v
+		}
+	}
+
 	// Load the plugins
 	mutexPlugins.Lock()
 	pluginCollection = fm
