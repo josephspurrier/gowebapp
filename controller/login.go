@@ -15,21 +15,18 @@ import (
 	"github.com/josephspurrier/csrfbanana"
 )
 
+const (
+	// Name of the session variable that tracks login attempts
+	sessLoginAttempt = "login_attempt"
+)
+
 // loginAttempt increments the number of login attempts in sessions variable
 func loginAttempt(sess *sessions.Session) {
 	// Log the attempt
-	if sess.Values["login_attempt"] == nil {
-		sess.Values["login_attempt"] = 1
+	if sess.Values[sessLoginAttempt] == nil {
+		sess.Values[sessLoginAttempt] = 1
 	} else {
-		sess.Values["login_attempt"] = sess.Values["login_attempt"].(int) + 1
-	}
-}
-
-// clearSessionVariables clears all the current session values
-func clearSessionVariables(sess *sessions.Session) {
-	// Clear out all stored values in the cookie
-	for k := range sess.Values {
-		delete(sess.Values, k)
+		sess.Values[sessLoginAttempt] = sess.Values[sessLoginAttempt].(int) + 1
 	}
 }
 
@@ -51,7 +48,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	sess := session.Instance(r)
 
 	// Prevent brute force login attempts by not hitting MySQL and pretending like it was invalid :-)
-	if sess.Values["login_attempt"] != nil && sess.Values["login_attempt"].(int) >= 5 {
+	if sess.Values[sessLoginAttempt] != nil && sess.Values[sessLoginAttempt].(int) >= 5 {
 		log.Println("Brute force login prevented")
 		sess.AddFlash(view.Flash{"Sorry, no brute force :-)", view.FlashNotice})
 		sess.Save(r, w)
@@ -77,7 +74,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	// Determine if user exists
 	if err == sql.ErrNoRows {
 		loginAttempt(sess)
-		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values["login_attempt"]), view.FlashWarning})
+		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), view.FlashWarning})
 		sess.Save(r, w)
 	} else if err != nil {
 		// Display error message
@@ -91,7 +88,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 			sess.Save(r, w)
 		} else {
 			// Login successfully
-			clearSessionVariables(sess)
+			session.Empty(sess)
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
 			sess.Values["id"] = result.Id
 			sess.Values["email"] = email
@@ -102,7 +99,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		loginAttempt(sess)
-		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values["login_attempt"]), view.FlashWarning})
+		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), view.FlashWarning})
 		sess.Save(r, w)
 	}
 
@@ -116,7 +113,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 	// If user is authenticated
 	if sess.Values["id"] != nil {
-		clearSessionVariables(sess)
+		session.Empty(sess)
 		sess.AddFlash(view.Flash{"Goodbye!", view.FlashNotice})
 		sess.Save(r, w)
 	}
