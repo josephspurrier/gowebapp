@@ -33,6 +33,16 @@ Build and run from the root directory. Open your web browser to: http://localhos
 
 Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
 
+## Switching to MongoDB
+
+A few people have asked for MongoDB so I made a few code modifications here:
+https://gist.github.com/josephspurrier/7742f8e863ee46dd12ba
+
+And a few things to keep in mind:
+
+* in login.go, use this to check for no results found: if err == model.ErrNoResult
+* And to get the ID, use the User.Id() func
+
 ## Overview
 
 The web app has a public home page, authenticated home page, login page, register page, and about page. 
