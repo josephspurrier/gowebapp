@@ -36,7 +36,7 @@ func LoginGET(w http.ResponseWriter, r *http.Request) {
 
 	// Display the view
 	v := view.New(r)
-	v.Name = "login"
+	v.Name = "login/login"
 	v.Vars["token"] = csrfbanana.Token(w, r, sess)
 	// Refill any form fields
 	view.Repopulate([]string{"email"}, r.Form, v.Vars)

@@ -20,7 +20,7 @@ func RegisterGET(w http.ResponseWriter, r *http.Request) {
 
 	// Display the view
 	v := view.New(r)
-	v.Name = "register"
+	v.Name = "register/register"
 	v.Vars["token"] = csrfbanana.Token(w, r, sess)
 	// Refill any form fields
 	view.Repopulate([]string{"first_name", "last_name", "email"}, r.Form, v.Vars)

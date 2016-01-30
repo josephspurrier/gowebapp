@@ -46,10 +46,10 @@
 		}
 	},
 	"Template": {
-		"Root": "index",
+		"Root": "base",
 		"Children": [
-			"menu",
-			"footer"
+			"partial/menu",
+			"partial/footer"
 		]
 	},
 	"View": {

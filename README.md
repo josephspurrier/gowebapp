@@ -88,17 +88,17 @@ github.com/mattn/go-sqlite3				- SQLite driver
 golang.org/x/crypto/bcrypt 				- password hashing algorithm
 ~~~
 
-The templates are:
+The templates are organized into folders:
 
 ~~~
-about.tmpl		- quick info about the app
-footer.tmpl		- footer
-home_anon.tmpl	- public home page
-home_auth.tmpl	- home page once you login
-index.tmpl		- base template for all the pages
-login.tmpl		- login page
-menu.tmpl		- menu at the top of all the pages
-register.tmpl	- register page
+about/about.tmpl       - quick info about the app
+index/anon.tmpl	       - public home page
+index/auth.tmpl	       - home page once you login
+login/login.tmpl	   - login page
+partial/footer.tmpl	   - footer
+partial/menu.tmpl	   - menu at the top of all the pages
+register/register.tmpl - register page
+base.tmpl		       - base template for all the pages
 ~~~
 
 ## Templates
@@ -214,7 +214,7 @@ Render a template:
 v := view.New(r)
 
 // Set the template name
-v.Name = "login"
+v.Name = "login/login"
 
 // Assign a variable that is accessible in the form
 v.Vars["token"] = csrfbanana.Token(w, r, sess)
@@ -379,10 +379,10 @@ This is config.json:
 		}
 	},
 	"Template": {
-		"Root": "index",
+		"Root": "base",
 		"Children": [
-			"menu",
-			"footer"
+			"partial/menu",
+			"partial/footer"
 		]
 	},
 	"View": {
