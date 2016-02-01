@@ -3,20 +3,6 @@ Basic MVC Web Application in Golang
 
 This project demonstrates how to structure and build a website using the Go language without a framework.
 
-## Quick Start with SQLite
-
-To download, run the following command:
-
-~~~
-go get github.com/josephspurrier/gowebapp
-~~~
-
-The gowebapp.db file is already populated with the schema, but if you want to recreate it yourself, run the queries in config/sqlite.sql.
-
-Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
-
-Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
-
 ## Quick Start with MySQL
 
 To download, run the following command:
@@ -27,7 +13,7 @@ go get github.com/josephspurrier/gowebapp
 
 Start MySQL and import config/mysql.sql to create the database and tables.
 
-Open config/config.json and edit the Database section so the connection information matches your MySQL instance. Also, change Type from SQLite to MySQL.
+Open config/config.json and edit the Database section so the connection information matches your MySQL instance.
 
 Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
 
@@ -333,7 +319,7 @@ This is config.json:
 ~~~ json
 {
 	"Database": {
-		"Type": "SQLite",
+		"Type": "MySQL",
 		"MySQL": {
 			"Username": "root",
 			"Password": "",
@@ -341,9 +327,6 @@ This is config.json:
 			"Hostname": "127.0.0.1",
 			"Port": 3306,
 			"Parameter": "?parseTime=true"
-		},
-		"SQLite": {
-			"Parameter": "gowebapp.db"
 		}
 	},
 	"Email": {

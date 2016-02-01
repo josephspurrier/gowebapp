@@ -6,7 +6,6 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	_ "github.com/mattn/go-sqlite3"
 )
 
 var (
@@ -15,9 +14,8 @@ var (
 )
 
 type Databases struct {
-	Type   string
-	MySQL  MySQLInfo
-	SQLite SQLiteInfo
+	Type  string
+	MySQL MySQLInfo
 }
 
 // MySQLInfo is the details for the database connection
@@ -27,11 +25,6 @@ type MySQLInfo struct {
 	Name      string
 	Hostname  string
 	Port      int
-	Parameter string
-}
-
-// SQLiteInfo is the details for the database connection
-type SQLiteInfo struct {
 	Parameter string
 }
 
@@ -57,16 +50,6 @@ func Connect(d Databases) {
 	case "MySQL":
 		// Connect to MySQL
 		if DB, err = sqlx.Connect("mysql", DSN(d.MySQL)); err != nil {
-			log.Println("SQL Driver Error", err)
-		}
-
-		// Check if is alive
-		if err = DB.Ping(); err != nil {
-			log.Println("Database Error", err)
-		}
-	case "SQLite":
-		// Connect to SQLite
-		if DB, err = sqlx.Connect("sqlite3", d.SQLite.Parameter); err != nil {
 			log.Println("SQL Driver Error", err)
 		}
 
