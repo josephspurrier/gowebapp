@@ -3,31 +3,39 @@ Basic MVC Web Application in Golang
 
 This project demonstrates how to structure and build a website using the Go language without a framework.
 
-## Quick Start with MySQL
-
 To download, run the following command:
 
 ~~~
 go get github.com/josephspurrier/gowebapp
 ~~~
 
-Start MySQL and import config/mysql.sql to create the database and tables.
+## Quick Start with Bolt
 
-Open config/config.json and edit the Database section so the connection information matches your MySQL instance.
+The gowebapp.db file will be created once you start the application.
 
 Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
 
 Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
 
-## Switching to MongoDB
+## Quick Start with MongoDB
 
-A few people have asked for MongoDB so I made a few code modifications here:
-https://gist.github.com/josephspurrier/7742f8e863ee46dd12ba
+Start MongoDB.
 
-And a few things to keep in mind:
+Open config/config.json and edit the Database section so the connection information matches your MongoDB instance. Also, change Type from Bolt to MongoDB.
 
-* in login.go, use this to check for no results found: if err == model.ErrNoResult
-* And to get the ID, use the User.Id() func
+Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
+
+Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
+
+## Quick Start with MySQL
+
+Start MySQL and import config/mysql.sql to create the database and tables.
+
+Open config/config.json and edit the Database section so the connection information matches your MySQL instance. Also, change Type from Bolt to MySQL.
+
+Build and run from the root directory. Open your web browser to: http://localhost. You should see the welcome page.
+
+Navigate to the login page, and then to the register page. Create a new user and you should be able to login. That's it.
 
 ## Overview
 
@@ -274,7 +282,9 @@ if !recaptcha.Verified(r) {
 
 It's a good idea to abstract the database layer out so if you need to make 
 changes, you don't have to look through business logic to find the queries. All
-the queries are stored in the models folder:
+the queries are stored in the models folder.
+
+The user.go file at the root of the model directory is a compliation of all the queries for each database type.
 
 Connect to the database (only once needed in your application):
 

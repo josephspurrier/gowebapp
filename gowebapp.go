@@ -63,7 +63,7 @@ var config = &configuration{}
 
 // configuration contains the application settings
 type configuration struct {
-	Database  database.Databases      `json:"Database"`
+	Database  database.DatabaseInfo   `json:"Database"`
 	Email     email.SMTPInfo          `json:"Email"`
 	Recaptcha recaptcha.RecaptchaInfo `json:"Recaptcha"`
 	Server    server.Server           `json:"Server"`

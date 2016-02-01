@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -72,7 +71,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	result, err := model.UserByEmail(email)
 
 	// Determine if user exists
-	if err == sql.ErrNoRows {
+	if err == model.ErrNoResult {
 		loginAttempt(sess)
 		sess.AddFlash(view.Flash{"Password is incorrect - Attempt: " + fmt.Sprintf("%v", sess.Values[sessLoginAttempt]), view.FlashWarning})
 		sess.Save(r, w)
@@ -90,7 +89,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 			// Login successfully
 			session.Empty(sess)
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
-			sess.Values["id"] = result.Id
+			sess.Values["id"] = result.ID()
 			sess.Values["email"] = email
 			sess.Values["first_name"] = result.First_name
 			sess.Save(r, w)
