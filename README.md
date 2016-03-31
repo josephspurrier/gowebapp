@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/josephspurrier/gowebapp)](https://goreportcard.com/report/github.com/josephspurrier/gowebapp)
 [![GoDoc](https://godoc.org/github.com/josephspurrier/gowebapp?status.svg)](https://godoc.org/github.com/josephspurrier/gowebapp) 
 
-Basic MVC Web Application in Golang
+Basic MVC Web Application in Go
 
 This project demonstrates how to structure and build a website using the Go language without a framework.
 
@@ -420,4 +420,4 @@ Authenticated Home:
 ## Feedback
 
 All feedback is welcome. Let me know if you have any suggestions, questions, or criticisms. 
-If something is not idiomatic to Golang, please let me know know so we can make it better.
+If something is not idiomatic to Go, please let me know know so we can make it better.
