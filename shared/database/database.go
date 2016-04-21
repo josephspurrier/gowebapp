@@ -94,7 +94,7 @@ func Connect(d DatabaseInfo) {
 		}
 	case TypeMongoDB:
 		// Connect to MongoDB
-		if Mongo, err = mgo.DialWithTimeout(d.MongoDB.URL, 5); err != nil {
+		if Mongo, err = mgo.DialWithTimeout(d.MongoDB.URL, 5 * time.Second); err != nil {
 			log.Println("MongoDB Driver Error", err)
 			return
 		}
