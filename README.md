@@ -307,7 +307,7 @@ return result, err
 Write to the database:
 
 ~~~ go
-_, err := database.DB.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
+_, err := database.DB.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", firstName, lastName, email, password)
 return err
 ~~~
 
