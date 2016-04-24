@@ -15,34 +15,37 @@ import (
 
 // User table contains the information for each user
 type User struct {
-	Id         uint32    `db:"id"`
-	First_name string    `db:"first_name"`
-	Last_name  string    `db:"last_name"`
-	Email      string    `db:"email"`
-	Password   string    `db:"password"`
-	Status_id  uint8     `db:"status_id"`
-	Created_at time.Time `db:"created_at"`
-	Updated_at time.Time `db:"updated_at"`
-	Deleted    uint8     `db:"deleted"`
+	ID        uint32    `db:"id"`
+	FirstName string    `db:"first_name"`
+	LastName  string    `db:"last_name"`
+	Email     string    `db:"email"`
+	Password  string    `db:"password"`
+	StatusID  uint8     `db:"status_id"`
+	CreatedAt time.Time `db:"created_at"`
+	UpdatedAt time.Time `db:"updated_at"`
+	Deleted   uint8     `db:"deleted"`
 }
 
-// User_status table contains every possible user status (active/inactive)
-type User_status struct {
-	Id         uint8     `db:"id"`
-	Status     string    `db:"status"`
-	Created_at time.Time `db:"created_at"`
-	Updated_at time.Time `db:"updated_at"`
-	Deleted    uint8     `db:"deleted"`
+// UserStatus table contains every possible user status (active/inactive)
+type UserStatus struct {
+	ID        uint8     `db:"id"`
+	Status    string    `db:"status"`
+	CreatedAt time.Time `db:"created_at"`
+	UpdatedAt time.Time `db:"updated_at"`
+	Deleted   uint8     `db:"deleted"`
 }
 
 var (
-	ErrCode        = errors.New("Case statement in code is not correct.")
-	ErrNoResult    = errors.New("Result not found.")
+	// ErrCode is a config or an internal error
+	ErrCode = errors.New("Case statement in code is not correct.")
+	// ErrNoResult is a not results error
+	ErrNoResult = errors.New("Result not found.")
+	// ErrUnavailable is a database not available error
 	ErrUnavailable = errors.New("Database is unavailable.")
 )
 
-// Id returns the user id
-func (u *User) ID() string {
+// UserID returns the user id
+func (u *User) UserID() string {
 	return fmt.Sprintf("%v", u.Id)
 }
 
@@ -62,15 +65,15 @@ func UserByEmail(email string) (User, error) {
 	return result, err
 }
 
-// UserIdByEmail gets user id from email
-func UserIdByEmail(email string) (User, error) {
+// UserIDByEmail gets user id from email
+func UserIDByEmail(email string) (User, error) {
 	result := User{}
 	err := database.Sql.Get(&result, "SELECT id FROM user WHERE email = ? LIMIT 1", email)
 	return result, err
 }
 
 // UserCreate creates user
-func UserCreate(first_name, last_name, email, password string) error {
-	_, err := database.Sql.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name, last_name, email, password)
+func UserCreate(firstName, lastName, email, password string) error {
+	_, err := database.Sql.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", firstName, lastName, email, password)
 	return err
 }

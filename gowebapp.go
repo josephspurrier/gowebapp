@@ -48,7 +48,7 @@ func main() {
 	view.LoadPlugins(
 		plugin.TagHelper(config.View),
 		plugin.NoEscape(),
-		recaptcha.RecaptchaPlugin())
+		recaptcha.Plugin())
 
 	// Start the listener
 	server.Run(route.LoadHTTP(), route.LoadHTTPS(), config.Server)
@@ -63,13 +63,13 @@ var config = &configuration{}
 
 // configuration contains the application settings
 type configuration struct {
-	Database  database.DatabaseInfo   `json:"Database"`
-	Email     email.SMTPInfo          `json:"Email"`
-	Recaptcha recaptcha.RecaptchaInfo `json:"Recaptcha"`
-	Server    server.Server           `json:"Server"`
-	Session   session.Session         `json:"Session"`
-	Template  view.Template           `json:"Template"`
-	View      view.View               `json:"View"`
+	Database  database.Info   `json:"Database"`
+	Email     email.SMTPInfo  `json:"Email"`
+	Recaptcha recaptcha.Info  `json:"Recaptcha"`
+	Server    server.Server   `json:"Server"`
+	Session   session.Session `json:"Session"`
+	Template  view.Template   `json:"Template"`
+	View      view.View       `json:"View"`
 }
 
 // ParseJSON unmarshals bytes to structs

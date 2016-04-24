@@ -18,44 +18,47 @@ import (
 
 // User table contains the information for each user
 type User struct {
-	ObjectId   bson.ObjectId `bson:"_id"`
-	Id         uint32        `db:"id" bson:"id,omitempty"` // Don't use Id, use ID() instead for consistency with MongoDB
-	First_name string        `db:"first_name" bson:"first_name"`
-	Last_name  string        `db:"last_name" bson:"last_name"`
-	Email      string        `db:"email" bson:"email"`
-	Password   string        `db:"password" bson:"password"`
-	Status_id  uint8         `db:"status_id" bson:"status_id"`
-	Created_at time.Time     `db:"created_at" bson:"created_at"`
-	Updated_at time.Time     `db:"updated_at" bson:"updated_at"`
-	Deleted    uint8         `db:"deleted" bson:"deleted"`
+	ObjectID  bson.ObjectId `bson:"_id"`
+	ID        uint32        `db:"id" bson:"id,omitempty"` // Don't use Id, use UserID() instead for consistency with MongoDB
+	FirstName string        `db:"first_name" bson:"first_name"`
+	LastName  string        `db:"last_name" bson:"last_name"`
+	Email     string        `db:"email" bson:"email"`
+	Password  string        `db:"password" bson:"password"`
+	StatusID  uint8         `db:"status_id" bson:"status_id"`
+	CreatedAt time.Time     `db:"created_at" bson:"created_at"`
+	UpdatedAt time.Time     `db:"updated_at" bson:"updated_at"`
+	Deleted   uint8         `db:"deleted" bson:"deleted"`
 }
 
-// User_status table contains every possible user status (active/inactive)
-type User_status struct {
-	Id         uint8     `db:"id" bson:"id"`
-	Status     string    `db:"status" bson:"status"`
-	Created_at time.Time `db:"created_at" bson:"created_at"`
-	Updated_at time.Time `db:"updated_at" bson:"updated_at"`
-	Deleted    uint8     `db:"deleted" bson:"deleted"`
+// UserStatus table contains every possible user status (active/inactive)
+type UserStatus struct {
+	ID        uint8     `db:"id" bson:"id"`
+	Status    string    `db:"status" bson:"status"`
+	CreatedAt time.Time `db:"created_at" bson:"created_at"`
+	UpdatedAt time.Time `db:"updated_at" bson:"updated_at"`
+	Deleted   uint8     `db:"deleted" bson:"deleted"`
 }
 
 var (
-	ErrCode        = errors.New("Case statement in code is not correct.")
-	ErrNoResult    = errors.New("Result not found.")
+	// ErrCode is a config or an internal error
+	ErrCode = errors.New("Case statement in code is not correct.")
+	// ErrNoResult is a not results error
+	ErrNoResult = errors.New("Result not found.")
+	// ErrUnavailable is a database not available error
 	ErrUnavailable = errors.New("Database is unavailable.")
 )
 
-// Id returns the user id
-func (u *User) ID() string {
+// UserID returns the user id
+func (u *User) UserID() string {
 	r := ""
 
 	switch database.ReadConfig().Type {
 	case database.TypeMySQL:
-		r = fmt.Sprintf("%v", u.Id)
+		r = fmt.Sprintf("%v", u.ID)
 	case database.TypeMongoDB:
-		r = u.ObjectId.Hex()
+		r = u.ObjectID.Hex()
 	case database.TypeBolt:
-		r = u.ObjectId.Hex()
+		r = u.ObjectID.Hex()
 	}
 
 	return r
@@ -78,7 +81,7 @@ func UserByEmail(email string) (User, error) {
 
 	switch database.ReadConfig().Type {
 	case database.TypeMySQL:
-		err = database.Sql.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
+		err = database.SQL.Get(&result, "SELECT id, password, status_id, first_name FROM user WHERE email = ? LIMIT 1", email)
 	case database.TypeMongoDB:
 		if database.CheckConnection() {
 			session := database.Mongo.Copy()
@@ -101,15 +104,15 @@ func UserByEmail(email string) (User, error) {
 }
 
 // UserCreate creates user
-func UserCreate(first_name, last_name, email, password string) error {
+func UserCreate(firstName, lastName, email, password string) error {
 	var err error
 
 	now := time.Now()
 
 	switch database.ReadConfig().Type {
 	case database.TypeMySQL:
-		_, err = database.Sql.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", first_name,
-			last_name, email, password)
+		_, err = database.SQL.Exec("INSERT INTO user (first_name, last_name, email, password) VALUES (?,?,?,?)", firstName,
+			lastName, email, password)
 	case database.TypeMongoDB:
 		if database.CheckConnection() {
 			session := database.Mongo.Copy()
@@ -117,15 +120,15 @@ func UserCreate(first_name, last_name, email, password string) error {
 			c := session.DB(database.ReadConfig().MongoDB.Database).C("user")
 
 			user := &User{
-				ObjectId:   bson.NewObjectId(),
-				First_name: first_name,
-				Last_name:  last_name,
-				Email:      email,
-				Password:   password,
-				Status_id:  1,
-				Created_at: now,
-				Updated_at: now,
-				Deleted:    0,
+				ObjectID:  bson.NewObjectId(),
+				FirstName: firstName,
+				LastName:  lastName,
+				Email:     email,
+				Password:  password,
+				StatusID:  1,
+				CreatedAt: now,
+				UpdatedAt: now,
+				Deleted:   0,
 			}
 			err = c.Insert(user)
 		} else {
@@ -133,15 +136,15 @@ func UserCreate(first_name, last_name, email, password string) error {
 		}
 	case database.TypeBolt:
 		user := &User{
-			ObjectId:   bson.NewObjectId(),
-			First_name: first_name,
-			Last_name:  last_name,
-			Email:      email,
-			Password:   password,
-			Status_id:  1,
-			Created_at: now,
-			Updated_at: now,
-			Deleted:    0,
+			ObjectID:  bson.NewObjectId(),
+			FirstName: firstName,
+			LastName:  lastName,
+			Email:     email,
+			Password:  password,
+			StatusID:  1,
+			CreatedAt: now,
+			UpdatedAt: now,
+			Deleted:   0,
 		}
 
 		err = database.Update("user", user.Email, &user)

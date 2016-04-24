@@ -23,9 +23,13 @@ func init() {
 }
 
 var (
-	FlashError   = "alert-danger"
+	// FlashError is a bootstrap class
+	FlashError = "alert-danger"
+	// FlashSuccess is a bootstrap class
 	FlashSuccess = "alert-success"
-	FlashNotice  = "alert-info"
+	// FlashNotice is a bootstrap class
+	FlashNotice = "alert-info"
+	// FlashWarning is a bootstrap class
 	FlashWarning = "alert-warning"
 
 	childTemplates     []string
@@ -61,12 +65,12 @@ type Flash struct {
 	Class   string
 }
 
-// Configure will set the view information
+// Configure sets the view information
 func Configure(vi View) {
 	viewInfo = vi
 }
 
-// Read the configuration
+// ReadConfig returns the configuration
 func ReadConfig() View {
 	return viewInfo
 }
@@ -154,7 +158,7 @@ func (v *View) AssetTimePath(s string) (string, error) {
 	return v.PrependBaseURI(s + "?" + time), nil
 }
 
-// Render a template to the screen
+// RenderSingle renders a template to the writer
 func (v *View) RenderSingle(w http.ResponseWriter) {
 
 	// Get the template collection from cache
@@ -228,7 +232,7 @@ func (v *View) RenderSingle(w http.ResponseWriter) {
 	}
 }
 
-// Render a template to the screen
+// Render renders a template to the writer
 func (v *View) Render(w http.ResponseWriter) {
 
 	// Get the template collection from cache
@@ -245,7 +249,7 @@ func (v *View) Render(w http.ResponseWriter) {
 	if !ok || !viewInfo.Caching {
 
 		// List of template names
-		templateList := make([]string, 0)
+		var templateList []string
 		templateList = append(templateList, rootTemplate)
 		templateList = append(templateList, v.Name)
 		templateList = append(templateList, childTemplates...)
@@ -337,7 +341,7 @@ func peekFlashes(w http.ResponseWriter, r *http.Request) []Flash {
 	// Get session
 	sess := session.Instance(r)
 
-	v := make([]Flash, 0)
+	var v []Flash
 
 	// Get the flashes for the template
 	if flashes := sess.Flashes(); len(flashes) > 0 {

@@ -29,6 +29,7 @@ func loginAttempt(sess *sessions.Session) {
 	}
 }
 
+// LoginGET displays the login page
 func LoginGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
@@ -42,6 +43,7 @@ func LoginGET(w http.ResponseWriter, r *http.Request) {
 	v.Render(w)
 }
 
+// LoginPOST handles the login form submission
 func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
@@ -81,7 +83,7 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 		sess.AddFlash(view.Flash{"There was an error. Please try again later.", view.FlashError})
 		sess.Save(r, w)
 	} else if passhash.MatchString(result.Password, password) {
-		if result.Status_id != 1 {
+		if result.StatusID != 1 {
 			// User inactive and display inactive message
 			sess.AddFlash(view.Flash{"Account is inactive so login is disabled.", view.FlashNotice})
 			sess.Save(r, w)
@@ -89,9 +91,9 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 			// Login successfully
 			session.Empty(sess)
 			sess.AddFlash(view.Flash{"Login successful!", view.FlashSuccess})
-			sess.Values["id"] = result.ID()
+			sess.Values["id"] = result.UserID()
 			sess.Values["email"] = email
-			sess.Values["first_name"] = result.First_name
+			sess.Values["first_name"] = result.FirstName
 			sess.Save(r, w)
 			http.Redirect(w, r, "/", http.StatusFound)
 			return
@@ -106,7 +108,8 @@ func LoginPOST(w http.ResponseWriter, r *http.Request) {
 	LoginGET(w, r)
 }
 
-func Logout(w http.ResponseWriter, r *http.Request) {
+// LogoutGET clears the session and logs the user out
+func LogoutGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
 

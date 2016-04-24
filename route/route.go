@@ -16,17 +16,17 @@ import (
 	"github.com/justinas/alice"
 )
 
-// Load the routes and middleware
+// Load returns the routes and middleware
 func Load() http.Handler {
 	return middleware(routes())
 }
 
-// Load the HTTP routes and middleware
+// LoadHTTPS returns the HTTP routes and middleware
 func LoadHTTPS() http.Handler {
 	return middleware(routes())
 }
 
-// Load the HTTPS routes and middleware
+// LoadHTTP returns the HTTPS routes and middleware
 func LoadHTTP() http.Handler {
 	return middleware(routes())
 
@@ -59,7 +59,7 @@ func routes() *httprouter.Router {
 	// Home page
 	r.GET("/", hr.Handler(alice.
 		New().
-		ThenFunc(controller.Index)))
+		ThenFunc(controller.IndexGET)))
 
 	// Login
 	r.GET("/login", hr.Handler(alice.
@@ -70,7 +70,7 @@ func routes() *httprouter.Router {
 		ThenFunc(controller.LoginPOST)))
 	r.GET("/logout", hr.Handler(alice.
 		New().
-		ThenFunc(controller.Logout)))
+		ThenFunc(controller.LogoutGET)))
 
 	// Register
 	r.GET("/register", hr.Handler(alice.

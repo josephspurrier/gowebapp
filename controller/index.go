@@ -7,8 +7,8 @@ import (
 	"github.com/josephspurrier/gowebapp/shared/view"
 )
 
-// Displays the default home page
-func Index(w http.ResponseWriter, r *http.Request) {
+// IndexGET displays the home page
+func IndexGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	session := session.Instance(r)
 

@@ -13,6 +13,7 @@ import (
 	"github.com/josephspurrier/csrfbanana"
 )
 
+// RegisterGET displays the register page
 func RegisterGET(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
@@ -26,6 +27,7 @@ func RegisterGET(w http.ResponseWriter, r *http.Request) {
 	v.Render(w)
 }
 
+// RegisterPOST handles the registration form submission
 func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	// Get session
 	sess := session.Instance(r)
@@ -54,8 +56,8 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get form values
-	first_name := r.FormValue("first_name")
-	last_name := r.FormValue("last_name")
+	firstName := r.FormValue("first_name")
+	lastName := r.FormValue("last_name")
 	email := r.FormValue("email")
 	password, errp := passhash.HashString(r.FormValue("password"))
 
@@ -72,7 +74,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	_, err := model.UserByEmail(email)
 
 	if err == model.ErrNoResult { // If success (no user exists with that email)
-		ex := model.UserCreate(first_name, last_name, email, password)
+		ex := model.UserCreate(firstName, lastName, email, password)
 		// Will only error if there is a problem with the query
 		if ex != nil {
 			log.Println(ex)

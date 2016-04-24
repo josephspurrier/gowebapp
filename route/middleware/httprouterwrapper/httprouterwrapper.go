@@ -1,7 +1,7 @@
-// Source: http://nicolasmerouze.com/guide-routers-golang/
-
-// Package middleware allows the use of http.HandlerFunc compatible funcs with julienschmidt/httprouter
+// Package httprouterwrapper allows the use of http.HandlerFunc compatible funcs with julienschmidt/httprouter
 package httprouterwrapper
+
+// Source: http://nicolasmerouze.com/guide-routers-golang/
 
 import (
 	"net/http"

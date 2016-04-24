@@ -29,9 +29,9 @@ func MatchString(hash, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	if err == nil {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 }
 
 // MatchBytes returns true if the hash matches the password
@@ -39,7 +39,7 @@ func MatchBytes(hash, password []byte) bool {
 	err := bcrypt.CompareHashAndPassword(hash, []byte(password))
 	if err == nil {
 		return true
-	} else {
-		return false
 	}
+
+	return false
 }

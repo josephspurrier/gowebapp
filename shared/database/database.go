@@ -7,30 +7,43 @@ import (
 	"time"
 
 	"github.com/boltdb/bolt"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // MySQL driver
 	"github.com/jmoiron/sqlx"
 	"gopkg.in/mgo.v2"
 )
 
 var (
-	BoltDB    *bolt.DB     // Bolt wrapper
-	Mongo     *mgo.Session // Mongo wrapper
-	Sql       *sqlx.DB     // SQL wrapper
-	databases DatabaseInfo // Database info
+	// BoltDB wrapper
+	BoltDB *bolt.DB
+	// Mongo wrapper
+	Mongo *mgo.Session
+	// SQL wrapper
+	SQL *sqlx.DB
+	// Database info
+	databases Info
 )
 
-type DatabaseType string
+// Type is the type of database from a Type* constant
+type Type string
 
 const (
-	TypeBolt    DatabaseType = "Bolt"
-	TypeMongoDB DatabaseType = "MongoDB"
-	TypeMySQL   DatabaseType = "MySQL"
+	// TypeBolt is BoltDB
+	TypeBolt Type = "Bolt"
+	// TypeMongoDB is MongoDB
+	TypeMongoDB Type = "MongoDB"
+	// TypeMySQL is MySQL
+	TypeMySQL Type = "MySQL"
 )
 
-type DatabaseInfo struct {
-	Type    DatabaseType
-	MySQL   MySQLInfo
-	Bolt    BoltInfo
+// Info contains the database configurations
+type Info struct {
+	// Database type
+	Type Type
+	// MySQL info if used
+	MySQL MySQLInfo
+	// Bolt info if used
+	Bolt BoltInfo
+	// MongoDB info if used
 	MongoDB MongoDBInfo
 }
 
@@ -70,7 +83,7 @@ func DSN(ci MySQLInfo) string {
 }
 
 // Connect to the database
-func Connect(d DatabaseInfo) {
+func Connect(d Info) {
 	var err error
 
 	// Store the config
@@ -79,12 +92,12 @@ func Connect(d DatabaseInfo) {
 	switch d.Type {
 	case TypeMySQL:
 		// Connect to MySQL
-		if Sql, err = sqlx.Connect("mysql", DSN(d.MySQL)); err != nil {
+		if SQL, err = sqlx.Connect("mysql", DSN(d.MySQL)); err != nil {
 			log.Println("SQL Driver Error", err)
 		}
 
 		// Check if is alive
-		if err = Sql.Ping(); err != nil {
+		if err = SQL.Ping(); err != nil {
 			log.Println("Database Error", err)
 		}
 	case TypeBolt:
@@ -94,7 +107,7 @@ func Connect(d DatabaseInfo) {
 		}
 	case TypeMongoDB:
 		// Connect to MongoDB
-		if Mongo, err = mgo.DialWithTimeout(d.MongoDB.URL, 5 * time.Second); err != nil {
+		if Mongo, err = mgo.DialWithTimeout(d.MongoDB.URL, 5*time.Second); err != nil {
 			log.Println("MongoDB Driver Error", err)
 			return
 		}
@@ -112,22 +125,22 @@ func Connect(d DatabaseInfo) {
 }
 
 // Update makes a modification to Bolt
-func Update(bucket_name string, key string, dataStruct interface{}) error {
+func Update(bucketName string, key string, dataStruct interface{}) error {
 	err := BoltDB.Update(func(tx *bolt.Tx) error {
 		// Create the bucket
-		bucket, e := tx.CreateBucketIfNotExists([]byte(bucket_name))
+		bucket, e := tx.CreateBucketIfNotExists([]byte(bucketName))
 		if e != nil {
 			return e
 		}
 
 		// Encode the record
-		encoded_record, e := json.Marshal(dataStruct)
+		encodedRecord, e := json.Marshal(dataStruct)
 		if e != nil {
 			return e
 		}
 
 		// Store the record
-		if e = bucket.Put([]byte(key), encoded_record); e != nil {
+		if e = bucket.Put([]byte(key), encodedRecord); e != nil {
 			return e
 		}
 		return nil
@@ -136,10 +149,10 @@ func Update(bucket_name string, key string, dataStruct interface{}) error {
 }
 
 // View retrieves a record in Bolt
-func View(bucket_name string, key string, dataStruct interface{}) error {
+func View(bucketName string, key string, dataStruct interface{}) error {
 	err := BoltDB.View(func(tx *bolt.Tx) error {
 		// Get the bucket
-		b := tx.Bucket([]byte(bucket_name))
+		b := tx.Bucket([]byte(bucketName))
 		if b == nil {
 			return bolt.ErrBucketNotFound
 		}
@@ -176,6 +189,6 @@ func CheckConnection() bool {
 }
 
 // ReadConfig returns the database information
-func ReadConfig() DatabaseInfo {
+func ReadConfig() Info {
 	return databases
 }

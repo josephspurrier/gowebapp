@@ -8,23 +8,23 @@ import (
 )
 
 var (
-	recap RecaptchaInfo
+	recap Info
 )
 
-// RecaptchaInfo has the details for the Google reCAPTCHA
-type RecaptchaInfo struct {
+// Info has the details for the Google reCAPTCHA
+type Info struct {
 	Enabled bool
 	Secret  string
 	SiteKey string
 }
 
 // Configure adds the settings for Google reCAPTCHA
-func Configure(c RecaptchaInfo) {
+func Configure(c Info) {
 	recap = c
 }
 
 // ReadConfig returns the settings for Google reCAPTCHA
-func ReadConfig() RecaptchaInfo {
+func ReadConfig() Info {
 	return recap
 }
 
@@ -41,8 +41,8 @@ func Verified(r *http.Request) bool {
 	return re.Verify(*r)
 }
 
-// RecaptchaFuncMapp returns a map of functions that are usable in templates
-func RecaptchaPlugin() template.FuncMap {
+// Plugin returns a map of functions that are usable in templates
+func Plugin() template.FuncMap {
 	f := make(template.FuncMap)
 
 	f["RECAPTCHA_SITEKEY"] = func() template.HTML {
