@@ -5,7 +5,7 @@
 
 Basic MVC Web Application in Go
 
-This project demonstrates how to structure and build a website using the Go language without a framework.
+This project demonstrates how to structure and build a website using the Go language without a framework. There is also a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/).
 
 To download, run the following command:
 
@@ -115,7 +115,7 @@ parses to
 parses to
 <script type="text/javascript" src="/static/js/jquery1.11.0.min.js?1435528404"></script>
 
-<!-- Same page hyperlinks -->
+<!-- Hyperlinks -->
 {{LINK "register" "Create a new account."}}
 parses to
 <a href="/register">Create a new account.</a>
@@ -127,7 +127,7 @@ parses to
 There are a few variables you can use in templates as well:
 
 ~~~ html
-<!-- Use AuthLevel=auth to determine if a user is logged in -->
+<!-- Use AuthLevel=auth to determine if a user is logged in (if session.Values["id"] != nil) -->
 {{if eq .AuthLevel "auth"}}
 You are logged in.
 {{else}}
@@ -245,7 +245,6 @@ Handle the database query:
 // Get database result
 result, err := model.UserByEmail(email)
 
-// Determine if password is correct
 if err == sql.ErrNoRows {
 	// User does not exist
 } else if err != nil {
