@@ -43,7 +43,8 @@ Navigate to the login page, and then to the register page. Create a new user and
 
 ## Overview
 
-The web app has a public home page, authenticated home page, login page, register page, and about page. 
+The web app has a public home page, authenticated home page, login page, register page,
+about page, and a simple notepad to demonstrate the CRUD operations.
 
 The entrypoint for the web app is gowebapp.go. The file loads the application settings, 
 starts the session, connects to the database, sets up the templates, loads 
@@ -93,6 +94,9 @@ about/about.tmpl       - quick info about the app
 index/anon.tmpl	       - public home page
 index/auth.tmpl	       - home page once you login
 login/login.tmpl	   - login page
+notepad/create.tmpl    - create note
+notepad/read.tmpl      - read a note
+notepad/update.tmpl    - update a note
 partial/footer.tmpl	   - footer
 partial/menu.tmpl	   - menu at the top of all the pages
 register/register.tmpl - register page
@@ -122,6 +126,11 @@ parses to
 
 <!-- Output an unescaped variable (not a safe idea, but I find it useful when troubleshooting) -->
 {{.SomeVariable | NOESCAPE}}
+
+<!-- Time format -->
+{{.SomeTime | PRETTYTIME}}
+parses to format
+3:04 PM 01/02/2006
 ~~~
 
 There are a few variables you can use in templates as well:
@@ -287,7 +296,13 @@ It's a good idea to abstract the database layer out so if you need to make
 changes, you don't have to look through business logic to find the queries. All
 the queries are stored in the models folder.
 
-The user.go file at the root of the model directory is a compliation of all the queries for each database type.
+This project supports BoltDB, MongoDB, and MySQL. All the queries are stored in
+the same files so you can easily change the database without modifying anything
+but the config file.
+
+The user.go and note.go files are at the root of the model directory and are a
+compliation of all the queries for each database type. There are a few hacks in
+the models to get the structs to work with all the supported databases.
 
 Connect to the database (only once needed in your application):
 
@@ -332,7 +347,14 @@ This is config.json:
 ~~~ json
 {
 	"Database": {
-		"Type": "MySQL",
+		"Type": "Bolt",
+		"Bolt": {		
+ 			"Path": "gowebapp.db"
+  		},
+		"MongoDB": {
+			"URL": "127.0.0.1",
+			"Database": "gowebapp"
+		},
 		"MySQL": {
 			"Username": "root",
 			"Password": "",
@@ -414,7 +436,19 @@ Login:
 
 Authenticated Home:
 
-![Image of Auth Home](https://cloud.githubusercontent.com/assets/2394539/11319465/e2cecd96-9045-11e5-8602-f4d0f1949136.jpg)
+![Image of Auth Home](https://cloud.githubusercontent.com/assets/2394539/14809208/75f340d2-0b59-11e6-8d2a-cd26ee872281.PNG)
+
+View Notes:
+
+![Image of Notepad View](https://cloud.githubusercontent.com/assets/2394539/14809205/75f08432-0b59-11e6-8737-84ee796bd82e.PNG)
+
+Add Note:
+
+![Image of Notepad Add](https://cloud.githubusercontent.com/assets/2394539/14809207/75f338f8-0b59-11e6-9719-61355957996c.PNG)
+
+Edit Note:
+
+![Image of Notepad Edit](https://cloud.githubusercontent.com/assets/2394539/14809206/75f33970-0b59-11e6-8acf-b3d533477aac.PNG)
 
 ## Feedback
 

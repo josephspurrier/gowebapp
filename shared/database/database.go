@@ -175,6 +175,20 @@ func View(bucketName string, key string, dataStruct interface{}) error {
 	return err
 }
 
+// Delete removes a record from Bolt
+func Delete(bucketName string, key string) error {
+	err := BoltDB.Update(func(tx *bolt.Tx) error {
+		// Get the bucket
+		b := tx.Bucket([]byte(bucketName))
+		if b == nil {
+			return bolt.ErrBucketNotFound
+		}
+
+		return b.Delete([]byte(key))
+	})
+	return err
+}
+
 // CheckConnection returns true if MongoDB is available
 func CheckConnection() bool {
 	if Mongo == nil {

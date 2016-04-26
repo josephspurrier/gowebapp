@@ -48,6 +48,7 @@ func main() {
 	view.LoadPlugins(
 		plugin.TagHelper(config.View),
 		plugin.NoEscape(),
+		plugin.PrettyTime(),
 		recaptcha.Plugin())
 
 	// Start the listener

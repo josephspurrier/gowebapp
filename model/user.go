@@ -1,14 +1,11 @@
 package model
 
 import (
-	"database/sql"
-	"errors"
 	"fmt"
 	"time"
 
 	"github.com/josephspurrier/gowebapp/shared/database"
 
-	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -39,15 +36,6 @@ type UserStatus struct {
 	Deleted   uint8     `db:"deleted" bson:"deleted"`
 }
 
-var (
-	// ErrCode is a config or an internal error
-	ErrCode = errors.New("Case statement in code is not correct.")
-	// ErrNoResult is a not results error
-	ErrNoResult = errors.New("Result not found.")
-	// ErrUnavailable is a database not available error
-	ErrUnavailable = errors.New("Database is unavailable.")
-)
-
 // UserID returns the user id
 func (u *User) UserID() string {
 	r := ""
@@ -62,15 +50,6 @@ func (u *User) UserID() string {
 	}
 
 	return r
-}
-
-// standardizeErrors returns the same error regardless of the database used
-func standardizeError(err error) error {
-	if err == sql.ErrNoRows || err == mgo.ErrNotFound {
-		return ErrNoResult
-	}
-
-	return err
 }
 
 // UserByEmail gets user information from email
