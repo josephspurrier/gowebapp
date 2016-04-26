@@ -37,7 +37,7 @@ var (
 
 // UserID returns the user id
 func (u *User) UserID() string {
-	return u.ObjectId.Hex()
+	return u.ObjectID.Hex()
 }
 
 // standardizeErrors returns the same error regardless of the database used
