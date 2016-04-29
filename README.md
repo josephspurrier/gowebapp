@@ -13,6 +13,8 @@ To download, run the following command:
 go get github.com/josephspurrier/gowebapp
 ~~~
 
+If you are on Go 1.5, you need to set GOVENDOREXPERIMENT to 1. If you are on Go 1.4 or earlier, the code will not work because it uses the vendor folder.
+
 ## Quick Start with Bolt
 
 The gowebapp.db file will be created once you start the application.
