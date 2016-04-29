@@ -12,7 +12,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/josephspurrier/gowebapp/shared/session"
+	"app/shared/session"
 )
 
 func init() {

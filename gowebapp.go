@@ -6,15 +6,15 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/josephspurrier/gowebapp/route"
-	"github.com/josephspurrier/gowebapp/shared/database"
-	"github.com/josephspurrier/gowebapp/shared/email"
-	"github.com/josephspurrier/gowebapp/shared/jsonconfig"
-	"github.com/josephspurrier/gowebapp/shared/recaptcha"
-	"github.com/josephspurrier/gowebapp/shared/server"
-	"github.com/josephspurrier/gowebapp/shared/session"
-	"github.com/josephspurrier/gowebapp/shared/view"
-	"github.com/josephspurrier/gowebapp/shared/view/plugin"
+	"app/route"
+	"app/shared/database"
+	"app/shared/email"
+	"app/shared/jsonconfig"
+	"app/shared/recaptcha"
+	"app/shared/server"
+	"app/shared/session"
+	"app/shared/view"
+	"app/shared/view/plugin"
 )
 
 // *****************************************************************************

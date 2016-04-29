@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"github.com/josephspurrier/gowebapp/shared/view"
+	"app/shared/view"
 )
 
 // AboutGET displays the About page

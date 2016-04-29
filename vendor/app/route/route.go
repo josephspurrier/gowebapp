@@ -3,12 +3,12 @@ package route
 import (
 	"net/http"
 
-	"github.com/josephspurrier/gowebapp/controller"
-	"github.com/josephspurrier/gowebapp/route/middleware/acl"
-	hr "github.com/josephspurrier/gowebapp/route/middleware/httprouterwrapper"
-	"github.com/josephspurrier/gowebapp/route/middleware/logrequest"
-	"github.com/josephspurrier/gowebapp/route/middleware/pprofhandler"
-	"github.com/josephspurrier/gowebapp/shared/session"
+	"app/controller"
+	"app/route/middleware/acl"
+	hr "app/route/middleware/httprouterwrapper"
+	"app/route/middleware/logrequest"
+	"app/route/middleware/pprofhandler"
+	"app/shared/session"
 
 	"github.com/gorilla/context"
 	"github.com/josephspurrier/csrfbanana"
