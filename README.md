@@ -5,7 +5,7 @@
 
 Basic MVC Web Application in Go
 
-This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/). There is also a full application I build with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp).
+This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/). There is also a full application I built with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp).
 
 To download, run the following command:
 
