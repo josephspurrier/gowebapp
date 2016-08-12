@@ -5,7 +5,7 @@
 
 Basic MVC Web Application in Go
 
-**Blue Jay** is the latest version of this project: [https://github.com/blue-jay/blueprint](https://github.com/blue-jay/blueprint).
+#### I recommend you use **Blue Jay** which is the latest version of this project: [https://github.com/blue-jay/blueprint](https://github.com/blue-jay/blueprint).
 
 This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/). There is a full application I built with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp). There is an API version of this project at [https://github.com/josephspurrier/gowebapi](https://github.com/josephspurrier/gowebapi).
 
