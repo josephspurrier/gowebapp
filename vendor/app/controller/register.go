@@ -10,7 +10,7 @@ import (
 	"app/shared/session"
 	"app/shared/view"
 
-	"github.com/josephspurrier/csrfbanana"
+	"github.com/stevei101/csrfbanana"
 )
 
 // RegisterGET displays the register page

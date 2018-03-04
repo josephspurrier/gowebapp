@@ -11,7 +11,7 @@ import (
 	"app/shared/view"
 
 	"github.com/gorilla/sessions"
-	"github.com/josephspurrier/csrfbanana"
+	"github.com/stevei101/csrfbanana"
 )
 
 const (

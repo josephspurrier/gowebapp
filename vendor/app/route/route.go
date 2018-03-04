@@ -11,7 +11,7 @@ import (
 	"app/shared/session"
 
 	"github.com/gorilla/context"
-	"github.com/josephspurrier/csrfbanana"
+	"github.com/stevei101/csrfbanana"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
 )
