@@ -10,7 +10,7 @@ import (
 	"app/shared/view"
 
 	"github.com/gorilla/context"
-	"github.com/josephspurrier/csrfbanana"
+	"github.com/stevei101/csrfbanana"
 	"github.com/julienschmidt/httprouter"
 )
 

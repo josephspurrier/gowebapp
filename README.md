@@ -1,18 +1,18 @@
 # GoWebApp
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/josephspurrier/gowebapp)](https://goreportcard.com/report/github.com/josephspurrier/gowebapp)
-[![GoDoc](https://godoc.org/github.com/josephspurrier/gowebapp?status.svg)](https://godoc.org/github.com/josephspurrier/gowebapp) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/stevei101/gowebapp)](https://goreportcard.com/report/github.com/stevei101/gowebapp)
+[![GoDoc](https://godoc.org/github.com/stevei101/gowebapp?status.svg)](https://godoc.org/github.com/stevei101/gowebapp) 
 
 Basic MVC Web Application in Go
 
 #### I recommend you use Blue Jay which is the latest version of this project: [https://github.com/blue-jay/blueprint](https://github.com/blue-jay/blueprint).
 
-This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/). There is a full application I built with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp). There is an API version of this project at [https://github.com/josephspurrier/gowebapi](https://github.com/josephspurrier/gowebapi).
+This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.stevei101.com/go-web-app-example/](http://www.stevei101.com/go-web-app-example/). There is a full application I built with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp). There is an API version of this project at [https://github.com/stevei101/gowebapi](https://github.com/stevei101/gowebapi).
 
 To download, run the following command:
 
 ~~~
-go get github.com/josephspurrier/gowebapp
+go get github.com/stevei101/gowebapp
 ~~~
 
 If you are on Go 1.5, you need to set GOVENDOREXPERIMENT to 1. If you are on Go 1.4 or earlier, the code will not work because it uses the vendor folder.
@@ -91,7 +91,7 @@ github.com/gorilla/sessions				- cookie and filesystem sessions
 github.com/go-sql-driver/mysql 			- MySQL driver
 github.com/haisum/recaptcha				- Google reCAPTCHA support
 github.com/jmoiron/sqlx 				- MySQL general purpose extensions
-github.com/josephspurrier/csrfbanana 	- CSRF protection for gorilla sessions
+github.com/stevei101/csrfbanana 	- CSRF protection for gorilla sessions
 github.com/julienschmidt/httprouter 	- high performance HTTP request router
 github.com/justinas/alice				- middleware chaining
 github.com/mattn/go-sqlite3				- SQLite driver
