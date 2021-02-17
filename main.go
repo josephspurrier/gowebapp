@@ -3,18 +3,17 @@ package main
 import (
 	"encoding/json"
 	"log"
-	"os"
-	"runtime"
+	"path/filepath"
 
-	"app/route"
-	"app/shared/database"
-	"app/shared/email"
-	"app/shared/jsonconfig"
-	"app/shared/recaptcha"
-	"app/shared/server"
-	"app/shared/session"
-	"app/shared/view"
-	"app/shared/view/plugin"
+	"github.com/josephspurrier/gowebapp/app/route"
+	"github.com/josephspurrier/gowebapp/app/shared/database"
+	"github.com/josephspurrier/gowebapp/app/shared/email"
+	"github.com/josephspurrier/gowebapp/app/shared/jsonconfig"
+	"github.com/josephspurrier/gowebapp/app/shared/recaptcha"
+	"github.com/josephspurrier/gowebapp/app/shared/server"
+	"github.com/josephspurrier/gowebapp/app/shared/session"
+	"github.com/josephspurrier/gowebapp/app/shared/view"
+	"github.com/josephspurrier/gowebapp/app/shared/view/plugin"
 )
 
 // *****************************************************************************
@@ -24,14 +23,11 @@ import (
 func init() {
 	// Verbose logging with file name and line number
 	log.SetFlags(log.Lshortfile)
-
-	// Use all CPU cores
-	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
 func main() {
 	// Load the configuration file
-	jsonconfig.Load("config"+string(os.PathSeparator)+"config.json", config)
+	jsonconfig.Load(filepath.Join("config", "config.json"), config)
 
 	// Configure the session cookie store
 	session.Configure(config.Session)

@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"app/shared/database"
+	"github.com/josephspurrier/gowebapp/app/shared/database"
 
 	"github.com/boltdb/bolt"
 	"gopkg.in/mgo.v2/bson"

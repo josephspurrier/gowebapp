@@ -3,7 +3,7 @@ package acl
 import (
 	"net/http"
 
-	"app/shared/session"
+	"github.com/josephspurrier/gowebapp/app/shared/session"
 )
 
 // DisallowAuth does not allow authenticated users to access the page

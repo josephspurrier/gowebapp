@@ -15,7 +15,7 @@ To download, run the following command:
 go get github.com/josephspurrier/gowebapp
 ~~~
 
-If you are on Go 1.5, you need to set GOVENDOREXPERIMENT to 1. If you are on Go 1.4 or earlier, the code will not work because it uses the vendor folder.
+This project requires a version of Go that supports modules.
 
 ## Quick Start with Bolt
 
@@ -64,12 +64,6 @@ by JavaScript in the static folder.
 
 ## Structure
 
-Recently, the folder structure changed. After looking at all the forks 
-and reusing my project in different places, I decided to move the Go code to the 
-**app** folder inside the **vendor** folder so the github path is not littered 
-throughout the many imports. I did not want to use relative paths so the vendor
-folder seemed like the best option.
-
 The project is organized into the following folders:
 
 ~~~
@@ -77,10 +71,10 @@ config		- application settings and database schema
 static		- location of statically served files like CSS and JS
 template	- HTML templates
 
-vendor/app/controller	- page logic organized by HTTP methods (GET, POST)
-vendor/app/shared		- packages for templates, MySQL, cryptography, sessions, and json
-vendor/app/model		- database queries
-vendor/app/route		- route information and middleware
+app/controller	- page logic organized by HTTP methods (GET, POST)
+app/shared		- packages for templates, MySQL, cryptography, sessions, and json
+app/model		- database queries
+app/route		- route information and middleware
 ~~~
 
 There are a few external packages:
