@@ -54,7 +54,7 @@ func NotepadCreatePOST(w http.ResponseWriter, r *http.Request) {
 
 	// Validate with required fields
 	if validate, missingField := view.Validate(r, []string{"note"}); !validate {
-		sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
+		sess.AddFlash(view.Flash{Message: "Field missing: " + missingField, Class: view.FlashError})
 		sess.Save(r, w)
 		NotepadCreateGET(w, r)
 		return
@@ -70,10 +70,10 @@ func NotepadCreatePOST(w http.ResponseWriter, r *http.Request) {
 	// Will only error if there is a problem with the query
 	if err != nil {
 		log.Println(err)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "An error occurred on the server. Please try again later.", Class: view.FlashError})
 		sess.Save(r, w)
 	} else {
-		sess.AddFlash(view.Flash{"Note added!", view.FlashSuccess})
+		sess.AddFlash(view.Flash{Message: "Note added!", Class: view.FlashSuccess})
 		sess.Save(r, w)
 		http.Redirect(w, r, "/notepad", http.StatusFound)
 		return
@@ -99,7 +99,7 @@ func NotepadUpdateGET(w http.ResponseWriter, r *http.Request) {
 	note, err := model.NoteByID(userID, noteID)
 	if err != nil { // If the note doesn't exist
 		log.Println(err)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "An error occurred on the server. Please try again later.", Class: view.FlashError})
 		sess.Save(r, w)
 		http.Redirect(w, r, "/notepad", http.StatusFound)
 		return
@@ -120,7 +120,7 @@ func NotepadUpdatePOST(w http.ResponseWriter, r *http.Request) {
 
 	// Validate with required fields
 	if validate, missingField := view.Validate(r, []string{"note"}); !validate {
-		sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
+		sess.AddFlash(view.Flash{Message: "Field missing: " + missingField, Class: view.FlashError})
 		sess.Save(r, w)
 		NotepadUpdateGET(w, r)
 		return
@@ -140,10 +140,10 @@ func NotepadUpdatePOST(w http.ResponseWriter, r *http.Request) {
 	// Will only error if there is a problem with the query
 	if err != nil {
 		log.Println(err)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "An error occurred on the server. Please try again later.", Class: view.FlashError})
 		sess.Save(r, w)
 	} else {
-		sess.AddFlash(view.Flash{"Note updated!", view.FlashSuccess})
+		sess.AddFlash(view.Flash{Message: "Note updated!", Class: view.FlashSuccess})
 		sess.Save(r, w)
 		http.Redirect(w, r, "/notepad", http.StatusFound)
 		return
@@ -169,10 +169,10 @@ func NotepadDeleteGET(w http.ResponseWriter, r *http.Request) {
 	// Will only error if there is a problem with the query
 	if err != nil {
 		log.Println(err)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "An error occurred on the server. Please try again later.", Class: view.FlashError})
 		sess.Save(r, w)
 	} else {
-		sess.AddFlash(view.Flash{"Note deleted!", view.FlashSuccess})
+		sess.AddFlash(view.Flash{Message: "Note deleted!", Class: view.FlashSuccess})
 		sess.Save(r, w)
 	}
 

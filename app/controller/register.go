@@ -41,7 +41,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 
 	// Validate with required fields
 	if validate, missingField := view.Validate(r, []string{"first_name", "last_name", "email", "password"}); !validate {
-		sess.AddFlash(view.Flash{"Field missing: " + missingField, view.FlashError})
+		sess.AddFlash(view.Flash{Message: "Field missing: " + missingField, Class: view.FlashError})
 		sess.Save(r, w)
 		RegisterGET(w, r)
 		return
@@ -49,7 +49,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 
 	// Validate with Google reCAPTCHA
 	if !recaptcha.Verified(r) {
-		sess.AddFlash(view.Flash{"reCAPTCHA invalid!", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "reCAPTCHA invalid!", Class: view.FlashError})
 		sess.Save(r, w)
 		RegisterGET(w, r)
 		return
@@ -64,7 +64,7 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 	// If password hashing failed
 	if errp != nil {
 		log.Println(errp)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "An error occurred on the server. Please try again later.", Class: view.FlashError})
 		sess.Save(r, w)
 		http.Redirect(w, r, "/register", http.StatusFound)
 		return
@@ -78,20 +78,20 @@ func RegisterPOST(w http.ResponseWriter, r *http.Request) {
 		// Will only error if there is a problem with the query
 		if ex != nil {
 			log.Println(ex)
-			sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+			sess.AddFlash(view.Flash{Message: "An error occurred on the server. Please try again later.", Class: view.FlashError})
 			sess.Save(r, w)
 		} else {
-			sess.AddFlash(view.Flash{"Account created successfully for: " + email, view.FlashSuccess})
+			sess.AddFlash(view.Flash{Message: "Account created successfully for: " + email, Class: view.FlashSuccess})
 			sess.Save(r, w)
 			http.Redirect(w, r, "/login", http.StatusFound)
 			return
 		}
 	} else if err != nil { // Catch all other errors
 		log.Println(err)
-		sess.AddFlash(view.Flash{"An error occurred on the server. Please try again later.", view.FlashError})
+		sess.AddFlash(view.Flash{Message: "An error occurred on the server. Please try again later.", Class: view.FlashError})
 		sess.Save(r, w)
 	} else { // Else the user already exists
-		sess.AddFlash(view.Flash{"Account already exists for: " + email, view.FlashError})
+		sess.AddFlash(view.Flash{Message: "Account already exists for: " + email, Class: view.FlashError})
 		sess.Save(r, w)
 	}
 
