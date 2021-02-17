@@ -182,7 +182,7 @@ func (v *View) RenderSingle(w http.ResponseWriter) {
 	// Loop through each template and test the full path
 	for i, name := range templateList {
 		// Get the absolute path of the root template
-		path, err := filepath.Abs(v.Folder + string(os.PathSeparator) + name + "." + v.Extension)
+		path, err := filepath.Abs(filepath.Join(v.Folder, name+"."+v.Extension))
 		if err != nil {
 			http.Error(w, "Template Path Error: "+err.Error(), http.StatusInternalServerError)
 			return
@@ -257,7 +257,7 @@ func (v *View) Render(w http.ResponseWriter) {
 		// Loop through each template and test the full path
 		for i, name := range templateList {
 			// Get the absolute path of the root template
-			path, err := filepath.Abs(v.Folder + string(os.PathSeparator) + name + "." + v.Extension)
+			path, err := filepath.Abs(filepath.Join(v.Folder, name+"."+v.Extension))
 			if err != nil {
 				http.Error(w, "Template Path Error: "+err.Error(), http.StatusInternalServerError)
 				return
