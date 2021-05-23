@@ -7,8 +7,6 @@ Basic MVC Web Application in Go
 
 #### I recommend you use Blue Jay which is the latest version of this project: [https://github.com/blue-jay/blueprint](https://github.com/blue-jay/blueprint).
 
-2021-02-17: There is also a branch using Go modules available here: https://github.com/josephspurrier/gowebapp/tree/modules.
-
 This project demonstrates how to structure and build a website using the Go language without a framework. There is a blog article you can read at [http://www.josephspurrier.com/go-web-app-example/](http://www.josephspurrier.com/go-web-app-example/). There is a full application I built with an earlier version of the project at [https://github.com/verifiedninja/webapp](https://github.com/verifiedninja/webapp). There is an API version of this project at [https://github.com/josephspurrier/gowebapi](https://github.com/josephspurrier/gowebapi).
 
 To download, run the following command:
@@ -18,6 +16,11 @@ go get github.com/josephspurrier/gowebapp
 ~~~
 
 If you are on Go 1.5, you need to set GOVENDOREXPERIMENT to 1. If you are on Go 1.4 or earlier, the code will not work because it uses the vendor folder.
+
+### Other Branches
+
+- 2021-02-17: There is a branch using Go modules (requires Go 1.13) available here: https://github.com/josephspurrier/gowebapp/tree/modules.
+- 2021-05-23: There is a branch using Go embedded assets (requires Go 1.16) available here: https://github.com/josephspurrier/gowebapp/tree/embedded-templates.
 
 ## Quick Start with Bolt
 
