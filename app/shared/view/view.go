@@ -13,6 +13,7 @@ import (
 	"sync"
 
 	"github.com/josephspurrier/gowebapp/app/shared/session"
+	embedded "github.com/josephspurrier/gowebapp/template"
 )
 
 func init() {
@@ -179,19 +180,13 @@ func (v *View) RenderSingle(w http.ResponseWriter) {
 	templateList = append(templateList, v.Name)
 	templateList = append(templateList, childTemplates...)*/
 
-	// Loop through each template and test the full path
+	// Loop through each template and add the extension
 	for i, name := range templateList {
-		// Get the absolute path of the root template
-		path, err := filepath.Abs(filepath.Join(v.Folder, name+"."+v.Extension))
-		if err != nil {
-			http.Error(w, "Template Path Error: "+err.Error(), http.StatusInternalServerError)
-			return
-		}
-		templateList[i] = path
+		templateList[i] = fmt.Sprintf("%v.%v", name, v.Extension)
 	}
 
 	// Determine if there is an error in the template syntax
-	templates, err := template.New(v.Name).Funcs(pc).ParseFiles(templateList...)
+	templates, err := template.New(v.Name).Funcs(pc).ParseFS(embedded.Assets, templateList...)
 
 	if err != nil {
 		http.Error(w, "Template Parse Error: "+err.Error(), http.StatusInternalServerError)
@@ -254,19 +249,13 @@ func (v *View) Render(w http.ResponseWriter) {
 		templateList = append(templateList, v.Name)
 		templateList = append(templateList, childTemplates...)
 
-		// Loop through each template and test the full path
+		// Loop through each template and add the extension
 		for i, name := range templateList {
-			// Get the absolute path of the root template
-			path, err := filepath.Abs(filepath.Join(v.Folder, name+"."+v.Extension))
-			if err != nil {
-				http.Error(w, "Template Path Error: "+err.Error(), http.StatusInternalServerError)
-				return
-			}
-			templateList[i] = path
+			templateList[i] = fmt.Sprintf("%v.%v", name, v.Extension)
 		}
 
 		// Determine if there is an error in the template syntax
-		templates, err := template.New(v.Name).Funcs(pc).ParseFiles(templateList...)
+		templates, err := template.New(v.Name).Funcs(pc).ParseFS(embedded.Assets, templateList...)
 
 		if err != nil {
 			http.Error(w, "Template Parse Error: "+err.Error(), http.StatusInternalServerError)
@@ -347,9 +336,9 @@ func peekFlashes(w http.ResponseWriter, r *http.Request) []Flash {
 	if flashes := sess.Flashes(); len(flashes) > 0 {
 		v = make([]Flash, len(flashes))
 		for i, f := range flashes {
-			switch f.(type) {
+			switch f := f.(type) {
 			case Flash:
-				v[i] = f.(Flash)
+				v[i] = f
 			default:
 				v[i] = Flash{f.(string), "alert-box"}
 			}
